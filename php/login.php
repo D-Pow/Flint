@@ -45,17 +45,18 @@
         }
         //insert values into database
         $hashedPassword = hash("sha256", $password);
-        $query = "INSERT INTO user (username, password, uname, ccn) VALUES (:user, :pass, :uname, :ccn);";
+        $query = "INSERT INTO user (username, password, uname, ccn, last_login) "
+                . "VALUES (:user, :pass, :uname, :ccn, :lt);";
         $entries = array(
                 ':user' => $username,
                 ':pass' => $hashedPassword,
                 ':uname'=> $name,
-                ':ccn'  => intval($ccn)
+                ':ccn'  => intval($ccn),
+                ':lt'   => date('0-0-0 0:0:0')  //make last login = never
             );
         $success = $db->runUpdate($query, $entries);
         if ($success) {
             acceptLogin($username);
-            reply("accept login");
         } else {
             reply("create failed");
         }
@@ -75,7 +76,6 @@
                 reply("wrong password");
             } else {
                 acceptLogin($username);
-                reply("accept login");
             }
         } else {
             //no users with that username
@@ -89,9 +89,30 @@
     }
 
     function acceptLogin($username) {
-        //Set username in php session
+        //Set username in php session and update last login time.
+        //Last login time is used to update what appears on the
+        //person's home feed
+        $db = new DB();
+        $result = $db->runSelect("SELECT last_login FROM User WHERE username=:u",
+            array(":u" => $username));
+        $cTime = date("Y-m-d H:i:s");  //current time
+        if ($result) {
+            $lTime = $result[0]['last_login'];  //last time the user logged in
+        } else {
+            //error
+            echo "error";
+            exit();
+        }
+
+        //update new last login time
+        $success = $db->runUpdate("UPDATE User SET last_login = :lt WHERE username=:u",
+            array(':lt' => $cTime, ':u' => $username));
+        
+        //Set username and last login time in session
         session_start();
         $_SESSION['username'] = $username;
+        $_SESSION['last_login'] = $lTime;
+        reply("accept login");
     }
 
 ?>

@@ -60,11 +60,13 @@
                     } else if (result == "no usernames") {
                         displayFeedback("That username doesn't exist");
                     //Correct login; redirect
-                    } else {
-                        //Make sure cookie exists first
+                    } else if (result == "accept login") {
+                        //Ensure php session began correctly
                         if (document.cookie) {
                             window.location.href = "/Flint/php/home.php";
                         }
+                    } else {
+                        displayFeedback(result);
                     }
                 }
             });

@@ -76,11 +76,13 @@
                     } else if (result == "user exists") {
                         displayFeedback("That username is already taken");
                     //Correct login; redirect
-                    } else {
-                        //Make sure cookie exists first
+                    } else if (result == "accept login") {
+                        //Ensure php session began correctly
                         if (document.cookie) {
                             window.location.href = "/Flint/php/home.php";
                         }
+                    } else {
+                        displayFeedback(result);
                     }
                 }
             });

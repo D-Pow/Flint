@@ -50,20 +50,6 @@
         } else {
             return null;
         }
-        /*
-        $projects = array();
-        if ($results) {
-            foreach ($results as $row) {
-                $project = getProjectInfo($row['pid'], $db);
-                array_push($projects, $project);
-            }
-        }
-        if ($projects) {
-            return $projects;
-        } else {
-            return null;
-        }
-        */
     }
 
     /**
