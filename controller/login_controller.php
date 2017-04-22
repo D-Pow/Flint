@@ -6,7 +6,7 @@
         }
 
         public function createnew() {
-            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/login/createaccount.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/login/createaccount.html');
         }
     }
 ?>

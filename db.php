@@ -35,7 +35,7 @@
             }
             $results = $statement->fetchAll();
             if ($results) {
-                return $results;
+                return $this->resultsToArray($results);
             } else {
                 return null;
             }
@@ -57,7 +57,8 @@
         }
 
         /**
-         * Formats results as a list of associative arrays,
+         * Strips out index keys from PDO results.
+         * Results in a list of associative arrays,
          * each array containing the key-value pairs for a
          * single row in the results array.
          *

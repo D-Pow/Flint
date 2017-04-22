@@ -2,6 +2,7 @@
     /**
      * Self-contained login script
      */
+    //verify that the input was appropriate and correct
     if (isset($_POST['createNew'])) {
         $createNewUser = intval($_POST['createNew']);
     } else {
@@ -29,6 +30,7 @@
     require($_SERVER['DOCUMENT_ROOT'].'/Flint/db.php');
     $db = DB::getInstance();
     
+    //begin login
     if ($createNewUser===1) {
         //create new user
         $query = "SELECT username FROM user;";

@@ -5,10 +5,8 @@ html {
 body {
     display: block;
     background-color: rgb(134, 234, 204);
-    height: 15%;
-    width: 20%;
-    padding: 100px 0;
     margin: auto;
+    text-align: center;
 }
 
 .hidden{
@@ -17,10 +15,12 @@ body {
 }
 
 #container {
+    display: inline-block;
+    height: 15%;
     border-radius: 25px;
-    padding: 30px 340px 100px 30px;
+    padding: 30px 30px 100px 30px;
     background-color: white;
-    margin: auto;
+    margin: 100px auto auto auto;
 }
 
 #container h2 {
