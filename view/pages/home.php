@@ -1,13 +1,18 @@
 <?php
-    session_start();
+    if (session_status() == PHP_SESSION_NONE) {
+        //if session hasn't started, user went to home via direct path
+        ?>
+        <script>window.location="/Flint/?controller=pages&action=home"</script>
+        <?php
+    }
     if (!isset($_SESSION['username'])) {
         ?>
-        <script>window.location="/Flint/index.html"</script>
+        <script>window.location="/Flint/"</script>
         <?php
     }
     $username = $_SESSION['username'];
-    include('db.php');
-    $db = new DB();
+    require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/db.php');
+    $db = DB::getInstance();
 
     getFeed($username, $db);
 
@@ -16,6 +21,7 @@
         $comments = getFollowedComments($username, $db);
         $likes = getFollowedLikes($username, $db);
         $donations = getFollowedDonations($username, $db);
+        $updates = getFollowedUpdates($username, $db);
         //projects that the user likes
         $projects = getLikedProjects($username, $db);
     }
@@ -69,7 +75,7 @@
     }
 
     function getFollowedLikes($username, $db) {
-        $q = "SELECT cid, username, pid, comment, ctime FROM Comment WHERE "
+        $q = "SELECT username, pid, ltime FROM Likes WHERE "
                 . "username IN ("
                 . "SELECT follows FROM Follows WHERE username=:u);";
         $entries = array(":u" => $username);
@@ -82,7 +88,20 @@
     }
 
     function getFollowedDonations($username, $db) {
-        $q = "SELECT cid, username, pid, comment, ctime FROM Comment WHERE "
+        $q = "SELECT username, pid, amount, pledge_time FROM Donation WHERE "
+                . "username IN ("
+                . "SELECT follows FROM Follows WHERE username=:u);";
+        $entries = array(":u" => $username);
+        $results = $db->runSelect($q, $entries);
+        if ($results) {
+            return $db->resultsToArray($results);
+        } else {
+            return null;
+        }
+    }
+
+    function getFollowedUpdates($username, $db) {
+        $q = "SELECT uid, username, pid, comment, ctime FROM ProjectUpdate WHERE "
                 . "username IN ("
                 . "SELECT follows FROM Follows WHERE username=:u);";
         $entries = array(":u" => $username);

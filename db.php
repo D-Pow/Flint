@@ -5,27 +5,39 @@
      */
     class DB {
 
+        private static $instance = null;
+        private $db;
+
+        private function __construct() {
+            $dbname = $_SERVER['DOCUMENT_ROOT'].'/Flint/flint.db';
+            $this->db = new PDO("sqlite:{$dbname}");
+        }
+        private function __clone() {}
+
+        public static function getInstance() {
+            if (!isset(self::$instance)) {
+                self::$instance = new DB();
+            }
+            return self::$instance;
+        }
+
         /**
          * Runs select query with optional entries.
          * Returns results or null if no results.
          */
         public function runSelect($query, $entries) {
-            try {
-                $db = new PDO("sqlite:../flint.db");
-                $statement = $db->prepare($query);
-                if ($entries) {
-                    $statement->execute($entries);
-                } else {
-                    $statement->execute();
-                }
-                $results = $statement->fetchAll();
-                if ($results) {
-                    return $results;
-                } else {
-                    return null;
-                }
-            } finally {
-                unset($db);
+            $db = $this->db;
+            $statement = $db->prepare($query);
+            if ($entries) {
+                $statement->execute($entries);
+            } else {
+                $statement->execute();
+            }
+            $results = $statement->fetchAll();
+            if ($results) {
+                return $results;
+            } else {
+                return null;
             }
         }
 
@@ -34,18 +46,14 @@
          * Returns true or false for success.
          */
         public function runUpdate($query, $entries) {
-            try {
-                $db = new PDO("sqlite:../flint.db");
-                $statement = $db->prepare($query);
-                if ($entries) {
-                    $success = $statement->execute($entries);
-                } else {
-                    $success = $statement->execute();
-                }
-                return $success;
-            } finally {
-                unset($db);
+            $db = $this->db;
+            $statement = $db->prepare($query);
+            if ($entries) {
+                $success = $statement->execute($entries);
+            } else {
+                $success = $statement->execute();
             }
+            return $success;
         }
 
         /**

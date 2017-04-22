@@ -1,13 +1,4 @@
-<!DOCTYPE html>
-<html>
-<head>
-    <!--Force browser to pull page from server-->
-    <meta http-equiv="cache-control" content="no-cache, no-store, must-revalidate">
-    <meta http-equiv="pragma" content="no-cache">
-    <link rel="stylesheet" href="/Flint/css/common.css" />
-    <title>Create new account</title>
-</head>
-<body>
+
     <div id='container'>
     <h2 style="font-family: cursive;">Create new account</h2>
         <table>
@@ -54,7 +45,7 @@
 
             $.ajax({
                 method: 'POST',
-                url: '/Flint/php/login.php',
+                url: '/Flint/controller/login.php',
                 data: {
                     createNew: createNew,
                     username:  username,
@@ -79,7 +70,7 @@
                     } else if (result == "accept login") {
                         //Ensure php session began correctly
                         if (document.cookie) {
-                            window.location.href = "/Flint/php/home.php";
+                            window.location.href = "/Flint/?controller=pages&action=home";
                         }
                     } else {
                         displayFeedback(result);
@@ -89,5 +80,3 @@
         }
     </script>
     <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
-</body>
-</html>

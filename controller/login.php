@@ -1,8 +1,6 @@
 <?php
     /**
-     * Note: PDO prepared statements are relatively
-     * safe from SQL injection, but we still need many
-     * other safety checks on user input.
+     * Self-contained login script
      */
     if (isset($_POST['createNew'])) {
         $createNewUser = intval($_POST['createNew']);
@@ -28,9 +26,8 @@
         reply("no values");
     }
     
-    //include($_SERVER['DOCUMENT_ROOT'].'/Flint/php/db.php');
-    include('db.php');
-    $db = new DB();
+    require($_SERVER['DOCUMENT_ROOT'].'/Flint/db.php');
+    $db = DB::getInstance();
     
     if ($createNewUser===1) {
         //create new user
@@ -62,7 +59,7 @@
         }
     } else {
         //load user from database
-        $query = "SELECT password FROM user WHERE username=:user;";
+        $query = "SELECT password FROM User WHERE username=:user;";
         $entries = array(
                 ':user' => $username
             );
@@ -92,7 +89,7 @@
         //Set username in php session and update last login time.
         //Last login time is used to update what appears on the
         //person's home feed
-        $db = new DB();
+        global $db;
         $result = $db->runSelect("SELECT last_login FROM User WHERE username=:u",
             array(":u" => $username));
         $cTime = date("Y-m-d H:i:s");  //current time
