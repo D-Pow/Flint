@@ -17,7 +17,6 @@
                 $proj_completed, $completion_time, $minfunds, $maxfunds, $camp_end_time,
                 $camp_finished, $camp_success) {
             $this->pid = $pid;
-            $this->pid = $pid;
             $this->username = $username;
             $this->pname = $pname;
             $this->description = $description;
@@ -42,7 +41,6 @@
             if ($results) {
                 $row = $results[0];   //only one project with given pid
                 $project = new Project(
-                        $row['pid'],
                         $row['pid'],
                         $row['username'],
                         $row['pname'],
@@ -77,7 +75,6 @@
                 $projects = [];
                 foreach ($results as $row) {
                     $projects[] = new Project(
-                            $row['pid'],
                             $row['pid'],
                             $row['username'],
                             $row['pname'],

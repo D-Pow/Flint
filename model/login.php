@@ -110,7 +110,7 @@
         //Set username and last login time in session
         session_start();
         $_SESSION['username'] = $username;
-        $_SESSION['last_login'] = $lTime;
+        $_SESSION['last_login'] = $lTime;   //stored as string
         reply("accept login");
     }
 

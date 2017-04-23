@@ -19,6 +19,7 @@
 
         /**
          * Get all donations for those the user follows.
+         * Order by pledge_time.
          */
         public static function getFollowedDonations($username) {
             $db = DB::getInstance();
