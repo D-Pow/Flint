@@ -1,0 +1,27 @@
+.entry {
+    text-align: center;
+    background-color: red;
+    width: 400px;
+    height: 15%;
+    border-radius: 25px;
+    padding: 30px 30px 60px 30px;
+    background-color: white;
+    margin: 50px auto 0px auto;
+}
+
+.entry {
+    text-align: left;
+}
+
+.entry h4 {
+    margin-top: 0px;
+}
+
+.entry-title {
+    text-decoration: none;
+    color: rgb(128,125,141);
+}
+
+.entry p {
+    margin: 0;
+}

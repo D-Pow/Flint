@@ -62,13 +62,13 @@
 
         /**
          * Get a list of project details for all projects
-         * liked by a given user.
+         * liked by a given user and sorted by the given field.
          */
-        public static function getLikedProjects($username) {
+        private static function getLikedProjectsByTime($username, $field) {
             $db = DB::getInstance();
             $q = "SELECT * FROM Project WHERE pid IN "
                     . "(SELECT pid FROM Likes WHERE username=:u) "
-                    . "ORDER BY post_time DESC;";
+                    . "ORDER BY {$field} DESC;";
             $entries = array(":u" => $username);
             $results = $db->runSelect($q, $entries);
             if ($results) {
@@ -93,6 +93,20 @@
             } else {
                 return null;
             }
+        }
+
+        /**
+         * Returns all projects a user likes sorted by the post time.
+         */
+        public static function getLikedProjectsByPostTime($username) {
+            return Project::getLikedProjectsByTime($username, 'post_time');
+        }
+
+        /**
+         * Returns all projects a user likes sorted by the completion time.
+         */
+        public static function getLikedProjectsByFinishTime($username) {
+            return Project::getLikedProjectsByTime($username, 'completion_time');
         }
 
     }

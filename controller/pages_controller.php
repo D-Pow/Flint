@@ -8,10 +8,18 @@
 
             $username = $_SESSION['username'];
             $posts = Post::getFollowedPosts($username);
-            $projects = Project::getLikedProjects($username);
+            //get projects both by post and completion time
+            $projects = Project::getLikedProjectsByPostTime($username);
+            $compProjects = Project::getLikedProjectsByFinishTime($username);
             $donations = Donation::getFollowedDonations($username);
-            //projects should be listed by most recent date, and will be sorted
-            //by being before/after the last_login time
+            
+            $ll = $_SESSION['last_login'];
+            $sortedPosts = $this->splitAllItemsAfter($ll, $posts, 'ctime');
+            $sortedProjects = $this->splitAllItemsAfter($ll, $projects, 'post_time');
+            $sortedCompProjects = $this->splitAllItemsAfter($ll, $compProjects, 
+                'completion_time');
+            $sortedDonations = $this->splitAllItemsAfter($ll, $donations, 'pledge_time');
+
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/home.php');
         }
 

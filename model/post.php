@@ -5,13 +5,15 @@
         public $pid;
         public $comment;
         public $ctime;
+        public $pname;
 
-        public function __construct($id, $author, $pid, $comment, $ctime) {
+        public function __construct($id, $author, $pid, $comment, $ctime, $pname) {
             $this->id = $id;
             $this->author = $author;
             $this->pid = $pid;
             $this->comment = $comment;
             $this->ctime = $ctime;
+            $this->pname = $pname;
         }
 
         /**
@@ -39,8 +41,8 @@
          */
         private static function getFollowedUpdates($username) {
             $db = DB::getInstance();
-            $q = "SELECT uid, username, pid, comment, ctime FROM ProjectUpdate WHERE "
-                    . "username IN ("
+            $q = "SELECT uid, pu.username, pid, comment, ctime, pname FROM ProjectUpdate AS pu "
+                    . "JOIN Project USING(pid) WHERE pu.username IN ("
                     . "SELECT follows FROM Follows WHERE username=:u) "
                     . "ORDER BY ctime DESC;";
             $entries = array(":u" => $username);
@@ -49,7 +51,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime']);
+                        $row['comment'], $row['ctime'], $row['pname']);
                 }
                 return $posts;
             } else {
@@ -62,8 +64,8 @@
          */
         private static function getFollowedComments($username) {
             $db = DB::getInstance();
-            $q = "SELECT cid, username, pid, comment, ctime FROM Comment WHERE "
-                    . "username IN ("
+            $q = "SELECT cid, pu.username, pid, comment, ctime, pname FROM Comment AS pu "
+                    . "JOIN Project USING(pid) WHERE pu.username IN ("
                     . "SELECT follows FROM Follows WHERE username=:u) "
                     . "ORDER BY ctime DESC;";
             $entries = array(":u" => $username);
@@ -72,7 +74,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime']);
+                        $row['comment'], $row['ctime'], $row['pname']);
                 }
                 return $posts;
             } else {
