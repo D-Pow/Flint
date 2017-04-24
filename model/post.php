@@ -6,14 +6,17 @@
         public $comment;
         public $ctime;
         public $pname;
+        public $owner;  //if the post was made as a project update
 
-        public function __construct($id, $author, $pid, $comment, $ctime, $pname) {
+        public function __construct($id, $author, $pid, $comment,
+                    $ctime, $pname, $owner) {
             $this->id = $id;
             $this->author = $author;
             $this->pid = $pid;
             $this->comment = $comment;
             $this->ctime = $ctime;
             $this->pname = $pname;
+            $this->owner = $owner;
         }
 
         /**
@@ -51,7 +54,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], $row['pname']);
+                        $row['comment'], $row['ctime'], $row['pname'], true);
                 }
                 return $posts;
             } else {
@@ -74,7 +77,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], $row['pname']);
+                        $row['comment'], $row['ctime'], $row['pname'], false);
                 }
                 return $posts;
             } else {

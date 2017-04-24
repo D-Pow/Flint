@@ -1,3 +1,9 @@
+#user-title, #edit-profile {
+    margin: 0;
+    position: fixed;
+    right: 20px;
+}
+
 .entry {
     text-align: center;
     background-color: red;
@@ -19,7 +25,11 @@
 
 .entry-title {
     text-decoration: none;
-    color: rgb(128,125,141);
+    color: rgb(0,152,5);
+}
+
+.entry-title:hover {
+    color: red;
 }
 
 .entry p {
