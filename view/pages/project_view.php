@@ -1,7 +1,18 @@
 <link rel="stylesheet" href="/Flint/view/pages/project.css" />
 
 <div id="container">
-    <h1><?php echo $project->pname; ?></h1>
+    <?php
+        //if owner, allow them to change description
+        if ($_SESSION['username'] == $project->username) {
+            echo "<script src='/Flint/view/pages/project_update.js'></script>";
+            echo "<h1>Title: "
+                ."<input id='title' type='text' value=".$project->pname.">"
+                ."</h1>";
+        } else {
+            //otherwise, just output the title
+            echo "<h1>".$project->pname."</h1>";
+        }
+    ?>
     <br />
 
     <h3>Author:</h3>
@@ -16,7 +27,19 @@
     <br />
     
     <h3>Description:</h3>
-    <p><?php echo $project->description; ?></p>
+    <?php
+        //if owner, allow them to change description
+        if ($_SESSION['username'] == $project->username) {
+            echo "<script src='/Flint/view/pages/project_update.js'></script>";
+            echo "<textarea id='description' type='text' rows='10' cols='50'>"
+                .$project->description."</textarea>";
+            echo "<button id='save' onclick='saveChanges("
+                .$project->pid.")'>Save Changes</button>";
+        } else {
+            //otherwise, just output the description
+            echo "<p>".$project->description."</p>";
+        }
+    ?>
     <br />
     
     <h3>Funding:</h3>
@@ -30,6 +53,8 @@
     
     <?php if ($project->camp_finished) {
         echo "<h2>The campaign was ".($project->camp_success ? "" : "not ")."a success.</h2>";
+    } else if ($project->username == $_SESSION['username']) {
+        //allow owner to post update
     } else {
         //load donation options
         ?>
@@ -40,8 +65,8 @@
                 onclick='donate(<?php echo $project->pid; ?>)'>Donate</button>
         <p id='reply'></p>
         <script src='/Flint/view/pages/donate.js'></script>
-        <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <?php
     }
 ?>
 </div>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
