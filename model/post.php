@@ -85,5 +85,71 @@
             }
         }
 
+        /**
+         * Get both comments and project updates for all
+         * people that the user doesn't follow
+         */
+        public static function getNonfollowedPosts($username) {
+            $updates = Post::getNonfollowedUpdates($username);
+            $comments = Post::getNonfollowedComments($username);
+            //both are non-null
+            if ($updates && $comments) {
+                $allPosts = array_merge($updates, $comments);
+                return $allPosts;
+            } else if ($updates) {
+                return $updates;
+            } else if ($comments) {
+                return $comments;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Get the project updates for those the user doesn't follos
+         */
+        private static function getNonfollowedUpdates($username) {
+            $db = DB::getInstance();
+            $q = "SELECT uid, pu.username, pid, comment, ctime, pname FROM ProjectUpdate AS pu "
+                    . "JOIN Project USING(pid) WHERE pu.username NOT IN ("
+                    . "SELECT follows FROM Follows WHERE username=:u) "
+                    . "ORDER BY ctime DESC;";
+            $entries = array(":u" => $username);
+            $results = $db->runSelect($q, $entries);
+            if ($results) {
+                $posts = [];
+                foreach ($results as $row) {
+                    $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
+                        $row['comment'], $row['ctime'], $row['pname'], true);
+                }
+                return $posts;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Get all comments from those the user doesn't follow.
+         */
+        private static function getNonfollowedComments($username) {
+            $db = DB::getInstance();
+            $q = "SELECT cid, pu.username, pid, comment, ctime, pname FROM Comment AS pu "
+                    . "JOIN Project USING(pid) WHERE pu.username NOT IN ("
+                    . "SELECT follows FROM Follows WHERE username=:u) "
+                    . "ORDER BY ctime DESC;";
+            $entries = array(":u" => $username);
+            $results = $db->runSelect($q, $entries);
+            if ($results) {
+                $posts = [];
+                foreach ($results as $row) {
+                    $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
+                        $row['comment'], $row['ctime'], $row['pname'], false);
+                }
+                return $posts;
+            } else {
+                return null;
+            }
+        }
+
     }
 ?>

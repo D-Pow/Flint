@@ -186,4 +186,38 @@
         echo $html;
     }
 
+    //separate non-followed content from followed content
+    echo "<p class='divider'>
+            ----------------------------non-followed content----------------------------
+          </p>";
+
+    //everything that happended before the last login
+    $nonfollowedContent = [];
+
+    //projects
+    if ($nonlikedProjects) {
+        foreach($nonlikedProjects as $project) {
+            $nonfollowedContent[] = displayProject($project);
+        }
+    }
+    
+    //donations
+    if ($nonfollowedDonations) {
+        foreach($nonfollowedDonations as $donation) {
+            $nonfollowedContent[] = displayDonation($donation);
+        }
+    }
+
+    //posts
+    if ($nonfollowedPosts) {
+        foreach($nonfollowedPosts as $post) {
+            $nonfollowedContent[] = displayPost($post);
+        }
+    }
+
+    shuffle($nonfollowedContent);
+    foreach ($nonfollowedContent as $html) {
+        echo $html;
+    }
+
 ?>

@@ -20,6 +20,10 @@
             $projects = Project::getLikedProjectsByPostTime($username);
             $compProjects = Project::getLikedProjectsByFinishTime($username);
             $donations = Donation::getFollowedDonations($username);
+            //also display non-liked/-followed content
+            $nonfollowedDonations = Donation::getNonfollowedDonations($username);
+            $nonlikedProjects = Project::getNonlikedProjectsByPostTime($username);
+            $nonfollowedPosts = Post::getNonfollowedPosts($username);
             
             $ll = $_SESSION['last_login'];
             $sortedPosts = $this->splitAllItemsAfter($ll, $posts, 'ctime');
