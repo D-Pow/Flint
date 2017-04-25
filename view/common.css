@@ -7,9 +7,27 @@ body {
     background-color: rgb(134, 234, 204);
 }
 
-.hidden{
+.hidden {
     /* Important makes this display override any other display values */
     display: none !important;
+}
+
+.button {
+    /*button links*/
+    color: rgb(211, 230, 251);
+    background: rgb(58, 198, 66);
+    margin: 20px;
+    padding: 10px;
+    text-decoration: none;
+    border: 2px solid black;
+}
+
+.button:focut {
+    outline: none;
+}
+
+.button:hover {
+    color: red;
 }
 
 #container {

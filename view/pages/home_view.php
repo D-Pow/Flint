@@ -106,8 +106,17 @@
 <!--Header content-->
 <h2 id='user-title'>Welcome <?php echo $username; ?>!</h2>
 <br /><br />
-<a id='edit-profile' href='/Flint/?controller=pages&action=user&user=<?php 
-    echo $username; ?>'>Profile</a>
+<ul id='nav'>
+    <li>
+        <a class='button' id='edit-profile'
+            href='/Flint/?controller=pages&action=user&user=<?php 
+            echo $username; ?>'>Profile</a>
+    </li>
+    <li>
+        <a class='button' id='logout'
+            href='/Flint/?controller=pages&action=logout'>Logout</a>
+    </li>
+</ul>
 
 <?php
     //arrays will hold the html to display and will be shuffled

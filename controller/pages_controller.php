@@ -1,6 +1,14 @@
 <?php
     class PagesController {
 
+        public function error() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/error_view.php');
+        }
+
+        public function logout() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/logout_view.php');
+        }
+
         public function home() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
@@ -20,11 +28,7 @@
                 'completion_time');
             $sortedDonations = $this->splitAllItemsAfter($ll, $donations, 'pledge_time');
 
-            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/home.php');
-        }
-
-        public function error() {
-            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/error.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/home_view.php');
         }
 
         public function user() {
@@ -34,7 +38,7 @@
             if ($user) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
                 $projects = Project::getLikedProjectsByPostTime($username);
-                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/user.php');
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/user_view.php');
             } else {
                 $this->error();
             }
