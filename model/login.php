@@ -33,11 +33,11 @@
     //begin login
     if ($createNewUser===1) {
         //create new user
-        $query = "SELECT username FROM user;";
+        $query = "SELECT lower(username) AS username FROM user;";
         $results = $db->runSelect($query, null);
         if ($results) {
             foreach ($results as $row) {
-                if ($row['username'] == $username) {
+                if ($row['username'] == strtolower($username)) {
                     reply("user exists");
                 }
             }
@@ -61,9 +61,9 @@
         }
     } else {
         //load user from database
-        $query = "SELECT password FROM User WHERE username=:user;";
+        $query = "SELECT password FROM User WHERE lower(username)=:user;";
         $entries = array(
-                ':user' => $username
+                ':user' => strtolower($username)
             );
         $results = $db->runSelect($query, $entries);
         if ($results) {
@@ -92,8 +92,8 @@
         //Last login time is used to update what appears on the
         //person's home feed
         global $db;
-        $result = $db->runSelect("SELECT last_login FROM User WHERE username=:u",
-            array(":u" => $username));
+        $result = $db->runSelect("SELECT last_login FROM User WHERE lower(username)=:u",
+            array(":u" => strtolower($username)));
         $cTime = date("Y-m-d H:i:s");  //current time
         if ($result) {
             $lTime = $result[0]['last_login'];  //last time the user logged in
@@ -104,9 +104,13 @@
         }
 
         //update new last login time
-        $success = $db->runUpdate("UPDATE User SET last_login = :lt WHERE username=:u",
-            array(':lt' => $cTime, ':u' => $username));
+        $success = $db->runUpdate("UPDATE User SET last_login = :lt WHERE lower(username)=:u",
+            array(':lt' => $cTime, ':u' => strtolower($username)));
         
+        //get correct username capitalization
+        $result = $db->runSelect("SELECT username FROM User WHERE lower(username)=:u;",
+                [':u'=>strtolower($username)]);
+        $username = $result[0]['username'];
         //Set username and last login time in session
         session_start();
         $_SESSION['username'] = $username;
