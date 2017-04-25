@@ -49,5 +49,21 @@
                 return null;
             }
         }
+
+        /**
+         * Gets the total number of donations for a given project.
+         */
+        public static function getTotalDonations($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT SUM(amount) AS total FROM Donation WHERE pid=:p GROUP BY pid;";
+            $entries = array(":p" => $pid);
+            $results = $db->runSelect($q, $entries);
+            if ($results) {
+                $row = $results[0];
+                return $row['total'];
+            } else {
+                return null;
+            }
+        }
     }
 ?>

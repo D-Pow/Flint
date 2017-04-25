@@ -1,0 +1,13 @@
+.entry-title {
+    text-decoration: none;
+    color: rgb(0,152,5);
+}
+
+#container {
+    width: 400px;
+}
+
+input {
+    background-color: white;
+    border: 1px solid black;
+}

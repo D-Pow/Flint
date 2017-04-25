@@ -36,7 +36,7 @@
         public static function getProject($pid) {
             $db = DB::getInstance();
             $q = "SELECT * FROM Project WHERE pid=:p;";
-            $entries = array(":" => $pid);
+            $entries = array(":p" => $pid);
             $results = $db->runSelect($q, $entries);
             if ($results) {
                 $row = $results[0];   //only one project with given pid

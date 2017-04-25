@@ -45,7 +45,17 @@
         }
 
         public function project() {
-
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
+            $pid = $_GET['pid'];
+            $pid = intval($pid);  //only allow ints
+            $project = Project::getProject($pid);
+            if ($project) {
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
+                $totalFunds = Donation::getTotalDonations($pid);
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/project_view.php');
+            } else {
+                $this->error();
+            }
         }
 
         /**
