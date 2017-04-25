@@ -28,7 +28,16 @@
         }
 
         public function user() {
-
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/user.php');
+            $username = $_GET['user'];
+            $user = User::getUser($username);
+            if ($user) {
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
+                $projects = Project::getLikedProjectsByPostTime($username);
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/user.php');
+            } else {
+                $this->error();
+            }
         }
 
         public function project() {

@@ -23,7 +23,7 @@
             $this->last_login = $last_login;
         }
 
-        public static getUser($username) {
+        public static function getUser($username) {
             $db = DB::getInstance();
             $q = "SELECT * FROM User WHERE username=:u;";
             $results = $db->runSelect($q, array(":u" => $username));

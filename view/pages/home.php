@@ -82,17 +82,16 @@
                         . $post->author
                         . "'>"
                         . $post->author . "
-                    </a>
-                    > 
+                    </a>"
+                    . (
+                        ($post->owner)
+                        ? 'made an update on '
+                        : 'commented on'
+                      ) . "
                     <a class='entry-title' 
                         href='/Flint/?controller=pages&action=project&pid="
                         .  $post->pid
-                        . "'>"
-                        . (
-                            ($post->owner)
-                            ? $post->pname . ' (Update)'
-                            : $post->pname 
-                          ) . "
+                        . "'>" . $post->pname . "
                     </a>
                 </h4>
                 <p>"
@@ -111,8 +110,9 @@
     echo $username; ?>'>Profile</a>
 
 <?php
-    //arrays to hold the html to display
-    //will be shuffled so that different types of content are mixed together
+    //arrays will hold the html to display and will be shuffled
+    //so that different types of content are mixed together
+    //display new content first
     $newContent = [];
 
     //projects
@@ -140,13 +140,15 @@
     foreach ($newContent as $html) {
         echo $html;
     }
-?>
 
-<p class='divider'>
-------------------------------------last login------------------------------------
-</p>
+    //print last login time
+    echo "<p class='divider'>
+            ------------------------last login: "
+            . date('H:i:s, m-d-Y', strtotime($_SESSION['last_login'])) .
+            "------------------------
+          </p>";
 
-<?php
+    //everything that happended before the last login
     $oldContent = [];
 
     //projects
