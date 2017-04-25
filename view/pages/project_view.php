@@ -35,7 +35,9 @@
         <h3>Would you be willing to donate?</h3>
         <input type='number' name='donation' id='donation' step='1' 
                 title="Whole numbers" pattern="[0-9]">
-        <button type='button' id='submit'>Donate</button>
+        <button type='button' id='submit'
+                onclick='donate(<?php echo $project->pid; ?>)'>Donate</button>
+        <p id='reply'></p>
         <script src='/Flint/view/pages/donate.js'></script>
         <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
         <?php
