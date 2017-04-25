@@ -10,7 +10,15 @@ function donate(pid) {
             pid: pid
         },
         success: function(result) {
-            document.getElementById('reply').innerHTML = result;
+            if (parseInt(result) > 0) {
+                //thank the donor
+                document.getElementById('reply').innerHTML = "Thank you for donating!";
+                //update current funds
+                document.getElementById('donation-scale').value = result;
+                document.getElementById('current-funds').innerHTML = "Current funds: "+result;
+            } else {
+                document.getElementById('reply').innerHTML = result;
+            }
         }
     });
 }

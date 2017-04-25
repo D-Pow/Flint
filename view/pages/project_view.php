@@ -20,12 +20,13 @@
     <br />
     
     <h3>Funding:</h3>
-    <p>Min: <?php echo $project->minfunds; ?><input type='range' min='<?php echo $project->minfunds; ?>'
+    <p>Min: <?php echo $project->minfunds; ?><input id='donation-scale' type='range'
+            min='<?php echo $project->minfunds; ?>'
             max='<?php echo $project->maxfunds; ?>'
             value='<?php echo $totalFunds; ?>' disabled>
         Max: <?php echo $project->maxfunds; ?>
     </p>
-    <p>Current funds: <?php echo $totalFunds; ?></p>
+    <p id='current-funds'>Current funds: <?php echo $totalFunds; ?></p>
     
     <?php if ($project->camp_finished) {
         echo "<h2>The campaign was ".($project->camp_success ? "" : "not ")."a success.</h2>";

@@ -1,9 +1,11 @@
 <?php
     if (!isset($_POST['donation']) || !isset($_POST['pid']) ||
-            $_POST['donation'] == '' || intval($_POST['donation']) == "0" ||
-            $_POST['pid'] == '' || intval($_POST['pid']) == "0") {
-        reply($_POST['pid']);
+            $_POST['donation'] == '' ||
+            $_POST['pid'] == '' || intval($_POST['pid']) == 0) {
         reply("Please enter a donation amount");
+    }
+    if (intval($_POST['donation']) == 0) {
+        reply("Please enter a number greater than 0");
     }
     session_start();
     if (!isset($_SESSION['username'])) {
@@ -39,7 +41,10 @@
         $success = $db -> runUpdate($insert, $entries);
     }
     if ($success) {
-        reply("Thank you for donating!");
+        //get current funds
+        require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
+        $currentFunds = Donation::getTotalDonations($pid);
+        reply($currentFunds);
     } else {
         reply("Something went wrong");
     }
