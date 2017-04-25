@@ -16,7 +16,8 @@
     <br />
 
     <h3>Author:</h3>
-    <a class='entry-title' href='/Flint/?controller=pages&action=user&user=<?php echo $project->username; ?>'><?php echo $project->username; ?></a>
+    <a class='entry-title' href='/Flint/?controller=pages&action=user&user=<?php
+            echo $project->username; ?>'><?php echo $project->username; ?></a>
 
     <h2>Posted:</h2>
     <p><?php echo $project->post_time; ?></p>
@@ -51,11 +52,13 @@
     </p>
     <p id='current-funds'>Current funds: <?php echo $totalFunds; ?></p>
     
-    <?php if ($project->camp_finished) {
-        echo "<h2>The campaign was ".($project->camp_success ? "" : "not ")."a success.</h2>";
-    } else if ($project->username == $_SESSION['username']) {
-        //allow owner to post update
-    } else {
+    <?php
+    if ($project->camp_finished) {
+        echo "<h2>The campaign was "
+            .($project->camp_success ? "" : "not ")."a success.</h2>";
+    } else if ($project->username != $_SESSION['username']) {
+        //allow non-owners to donate
+
         //load donation options
         ?>
         <h3>Would you be willing to donate?</h3>
@@ -67,6 +70,17 @@
         <script src='/Flint/view/pages/donate.js'></script>
         <?php
     }
+    if ($project->username != $_SESSION['username'] 
+            && !array_key_exists($_SESSION['username'], $likes)) {        
+        //allow non-owners to like the project if they haven't liked it already
+        ?>
+        <button type='button' id='like-button'
+                onclick='like(<?php echo $project->pid; ?>)'>Like</button>
+        <script src='/Flint/view/pages/project_like.js'></script>
+        <?php
+    }
+    //output how many people like the project
+    echo "<p id='likes'>".count($likes)." likes</p>";
 ?>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

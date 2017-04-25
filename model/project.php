@@ -96,6 +96,25 @@
         }
 
         /**
+         * Get all users that like a given project
+         */
+        public static function getLikes($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT username, ltime FROM Likes WHERE pid=:p;";
+            $entries = array(":p" => $pid);
+            $results = $db->runSelect($q, $entries);
+            if ($results) {
+                $users = [];
+                foreach ($results as $row) {
+                    $users[$row['username']] = $row['ltime'];
+                }
+                return $users;
+            } else {
+                return null;
+            }
+        }
+
+        /**
          * Returns all projects a user likes sorted by the post time.
          */
         public static function getLikedProjectsByPostTime($username) {

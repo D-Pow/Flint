@@ -49,6 +49,7 @@
             $pid = $_GET['pid'];
             $pid = intval($pid);  //only allow ints
             $project = Project::getProject($pid);
+            $likes = Project::getLikes($pid);
             if ($project) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
                 $totalFunds = Donation::getTotalDonations($pid);
