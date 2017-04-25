@@ -11,7 +11,7 @@
                 <td><input type="password" id="pass" name="password"></td>
             </tr>
             <tr>
-                <td><input type="button" value="Login" onclick="login()"></td>
+                <td><input id='loginB' type="button" value="Login" onclick="login()"></td>
                 <td><input type="button" value="Create Account"
                         onclick="window.location='/Flint/?controller=login&action=createnew'"></td>
             </tr>
@@ -25,6 +25,13 @@
     <br />
     <br />
     <script>
+        var input = document.getElementById('pass');
+        input.onkeypress = function(event) {
+            if (event.keyCode == 13) { //if user pressed enter
+                document.getElementById('loginB').click();
+            }
+        }
+
         function displayFeedback(message) {
             document.getElementById("feedback").innerHTML = message;
         }

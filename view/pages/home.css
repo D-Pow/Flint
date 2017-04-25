@@ -4,6 +4,13 @@
     right: 20px;
 }
 
+.divider {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    text-align: center;
+    color: rgb(148,113,113);
+}
+
 .entry {
     text-align: center;
     background-color: red;
