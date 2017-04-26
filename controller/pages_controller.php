@@ -19,6 +19,10 @@
          * Home page
          */
         public function home() {
+            if (!isset($_SESSION['username'])) {
+                echo "<script>window.location='/Flint/'</script>";
+            }
+
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
@@ -34,12 +38,25 @@
             $nonlikedProjects = Project::getNonlikedProjectsByPostTime($username);
             $nonfollowedPosts = Post::getNonfollowedPosts($username);
             
+            //sort content by what came before and after the user's last login time
             $ll = $_SESSION['last_login'];
             $sortedPosts = $this->splitAllItemsAfter($ll, $posts, 'ctime');
             $sortedProjects = $this->splitAllItemsAfter($ll, $projects, 'post_time');
             $sortedCompProjects = $this->splitAllItemsAfter($ll, $compProjects, 
                 'completion_time');
             $sortedDonations = $this->splitAllItemsAfter($ll, $donations, 'pledge_time');
+
+            //get any requests for a user to rate a project
+            $requestedRatings = [];
+            if ($compProjects) {
+                foreach ($compProjects as $project) {
+                    $requestedUsers = Project::getRequestedRaters($project->pid);
+                    //if the user is in the list of those who haven't rated it yet
+                    if ($requestedUsers && in_array($username, $requestedUsers)) {
+                        $requestedRatings[] = $project;
+                    }
+                }
+            }
 
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/home_view.php');
         }
@@ -83,6 +100,23 @@
          */
         public function new() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/new_project_view.php');
+        }
+
+        /**
+         * Rate project page
+         */
+        public function rate() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
+            $pid = $_GET['pid'];
+            $project = Project::getProject($pid);
+            if ($project) {
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
+                $totalFunds = Donation::getTotalDonations($pid);
+                $likes = Project::getLikes($pid);
+                require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/rate_project.php');
+            } else {
+                $this->error();
+            }
         }
 
         /**

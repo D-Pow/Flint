@@ -9,6 +9,31 @@
     }
 
     /**
+     * Display a request to the user to rate a project
+     */
+    function displayRatingRequest($project) {
+        $html = "
+            <div class='entry'>
+                <h4>
+                    <a class='entry-title' 
+                        href='/Flint/?controller=pages&action=project&pid="
+                        . $project->pid
+                        . "'>"
+                        . $project->pname ."
+                    </a>
+                    has been completed! Please rate this project 
+                    <a class='entry-title' 
+                        href='/Flint/?controller=pages&action=rate&pid="
+                        . $project->pid
+                        . "'>here.
+                    </a>
+                </h4>
+            </div>
+            ";
+        return $html;
+    }
+
+    /**
      * Gets the appropriate project content and converts
      * it to a string containing the appropriate html
      */
@@ -22,7 +47,7 @@
                         . "'>"
                         . $project->username . "
                     </a>
-                    posted a new project: 
+                    posted a project: 
                     <a class='entry-title' 
                         href='/Flint/?controller=pages&action=project&pid="
                         . $project->pid
@@ -102,9 +127,17 @@
         return $html;
     }
 
+    //display rating requests first
+    if ($requestedRatings) {
+        foreach ($requestedRatings as $project) {
+            echo displayRatingRequest($project);
+        }
+    }
+
     //arrays will hold the html to display and will be shuffled
     //so that different types of content are mixed together
-    //display new content first
+
+    //display new content before old content
     $newContent = [];
 
     //projects
@@ -174,7 +207,7 @@
             ------------------------non-followed content------------------------
           </h3>";
 
-    //everything that happended before the last login
+    //display non-followed content, too
     $nonfollowedContent = [];
 
     //projects

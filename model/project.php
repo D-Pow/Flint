@@ -61,8 +61,9 @@
         }
 
         /**
-         * Get a list of project details for all projects
-         * liked by a given user and sorted by the given field.
+         * Get a list of project objects for all projects
+         * liked by a given user or posted by someone the user follows.
+         * Results are sorted by the given field.
          */
         private static function getLikedProjectsByTime($username, $field) {
             $db = DB::getInstance();
@@ -163,6 +164,62 @@
          */
         public static function getLikedProjectsByFinishTime($username) {
             return Project::getLikedProjectsByTime($username, 'completion_time');
+        }
+
+        /**
+         * Get all usernames for people who have donated to a project
+         * and have been charged but haven't submitted a rating, yet.
+         */
+        public static function getRequestedRaters($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT username FROM Donation WHERE pid=:p AND charged=1 "
+                ."AND username NOT IN (SELECT username FROM Rating WHERE pid=:p);";
+            $e = [':p' => $pid];
+            $results = $db->runSelect($q, $e);
+            if ($results) {
+                $users = [];
+                foreach ($results as $row) {
+                    $users[] = $row['username'];
+                }
+                return $users;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Gets the average rating for a specific project
+         */
+        public static function getAverageRating($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT AVG(rating) AS average FROM Rating WHERE pid=:p;";
+            $e = [':p' => $pid];
+            $results = $db->runSelect($q, $e);
+            if ($results) {
+                return $results[0]['average'];
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Gets the list of people who have already rated a
+         * specific project
+         */
+        public static function getRaters($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT username FROM Rating WHERE pid=:p;";
+            $e = [':p' => $pid];
+            $results = $db->runSelect($q, $e);
+            if ($results) {
+                $users = [];
+                foreach ($results as $row) {
+                    $users[] = $row['username'];
+                }
+                return $users;
+            } else {
+                return null;
+            }
         }
 
     }
