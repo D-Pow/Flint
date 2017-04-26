@@ -1,4 +1,4 @@
-<link rel='stylesheet' href='/Flint/view/pages/user.css'>
+<link rel='stylesheet' href='/Flint/view/pages/css/user.css'>
 
 <div id="container">
     <h1><?php echo $user->username; ?></h1>
@@ -23,11 +23,11 @@
             <input id='state' type='text' value='<?php echo $user->ustate; ?>'>
             <br />
             <h3>Interests:</h3>
-            <textarea id='interests'><?php echo $user->interests; ?></textarea>
+            <textarea id='interests' rows='10' cols='30'><?php echo $user->interests; ?></textarea>
             <br />
             <button id='save-button' type='button'
                 onclick='saveChanges()'>Save Changes</button>
-            <script src='/Flint/view/pages/user.js'></script>
+            <script src='/Flint/view/pages/js/user.js'></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
             </script>
             <?php

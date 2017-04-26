@@ -9,7 +9,7 @@
 </head>
 <body>
     <?php
-        if (isset($_SESSION['username'])) {
+        if (isset($_SESSION['username']) && $controller != 'login') {
             //set header if logged in
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/header.php');
         }

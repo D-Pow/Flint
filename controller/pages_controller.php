@@ -1,14 +1,23 @@
 <?php
     class PagesController {
 
+        /**
+         * Error page
+         */
         public function error() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/error_view.php');
         }
 
+        /**
+         * Logout page
+         */
         public function logout() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/logout_view.php');
         }
 
+        /**
+         * Home page
+         */
         public function home() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
@@ -35,6 +44,9 @@
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/home_view.php');
         }
 
+        /**
+         * User profile page
+         */
         public function user() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/user.php');
             $username = $_GET['user'];
@@ -48,6 +60,9 @@
             }
         }
 
+        /**
+         * Project page
+         */
         public function project() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             $pid = $_GET['pid'];
@@ -61,6 +76,13 @@
             } else {
                 $this->error();
             }
+        }
+
+        /**
+         * New project page
+         */
+        public function new() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/new_project_view.php');
         }
 
         /**

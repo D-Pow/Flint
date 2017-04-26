@@ -1,4 +1,4 @@
-<link rel="stylesheet" href="/Flint/view/pages/home.css" />
+<link rel="stylesheet" href="/Flint/view/pages/css/home.css" />
 
 <?php
     if (!isset($_SESSION['username'])) {

@@ -68,6 +68,8 @@
             $db = DB::getInstance();
             $q = "SELECT * FROM Project WHERE pid IN "
                     . "(SELECT pid FROM Likes WHERE username=:u) "
+                    . "OR pid IN (SELECT pid FROM Project WHERE username IN "
+                    . "(SELECT follows FROM Follows WHERE username=:u)) "
                     . "ORDER BY {$field} DESC;";
             $entries = array(":u" => $username);
             $results = $db->runSelect($q, $entries);

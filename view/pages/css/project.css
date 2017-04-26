@@ -12,6 +12,10 @@ input {
     border: 1px solid black;
 }
 
+input[type="range"] {
+    padding: 0;
+}
+
 textarea {
     resize: none;
 }

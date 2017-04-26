@@ -1,10 +1,10 @@
-<link rel="stylesheet" href="/Flint/view/pages/project.css" />
+<link rel="stylesheet" href="/Flint/view/pages/css/project.css" />
 
 <div id="container">
     <?php
         //if owner, allow them to change description
         if ($_SESSION['username'] == $project->username) {
-            echo "<script src='/Flint/view/pages/project_update.js'></script>";
+            echo "<script src='/Flint/view/pages/js/project_update.js'></script>";
             echo "<h1>Title: "
                 ."<input id='title' type='text' value=".$project->pname.">"
                 ."</h1>";
@@ -31,7 +31,7 @@
     <?php
         //if owner, allow them to change description
         if ($_SESSION['username'] == $project->username) {
-            echo "<script src='/Flint/view/pages/project_update.js'></script>";
+            echo "<script src='/Flint/view/pages/js/project_update.js'></script>";
             echo "<textarea id='description' type='text' rows='10' cols='50'>"
                 .$project->description."</textarea>";
             echo "<button id='save' onclick='saveChanges("
@@ -47,10 +47,11 @@
     <p>Min: <?php echo $project->minfunds; ?><input id='donation-scale' type='range'
             min='<?php echo $project->minfunds; ?>'
             max='<?php echo $project->maxfunds; ?>'
-            value='<?php echo $totalFunds; ?>' disabled>
+            value='<?php echo $totalFunds ? $totalFunds : 0; ?>' disabled>
         Max: <?php echo $project->maxfunds; ?>
     </p>
-    <p id='current-funds'>Current funds: <?php echo $totalFunds; ?></p>
+    <p id='current-funds'>
+        Current funds: <?php echo $totalFunds ? $totalFunds : 0; ?></p>
     
     <?php
     if ($project->camp_finished) {
@@ -67,16 +68,18 @@
         <button type='button' id='submit'
                 onclick='donate(<?php echo $project->pid; ?>)'>Donate</button>
         <p id='reply'></p>
-        <script src='/Flint/view/pages/donate.js'></script>
+        <script src='/Flint/view/pages/js/donate.js'></script>
         <?php
     }
-    if ($project->username != $_SESSION['username'] 
-            && !array_key_exists($_SESSION['username'], $likes)) {        
+    if (($project->username != $_SESSION['username'] && $likes
+            && !array_key_exists($_SESSION['username'], $likes))
+        //no likes yet
+        || ($project->username != $_SESSION['username'] && !$likes)) {
         //allow non-owners to like the project if they haven't liked it already
         ?>
         <button type='button' id='like-button'
                 onclick='like(<?php echo $project->pid; ?>)'>Like</button>
-        <script src='/Flint/view/pages/project_like.js'></script>
+        <script src='/Flint/view/pages/js/project_like.js'></script>
         <?php
     }
     //output how many people like the project

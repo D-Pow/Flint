@@ -6,3 +6,7 @@
 .entry-title:hover {
     color: red;
 }
+
+textarea {
+    resize: none;
+}

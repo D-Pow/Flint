@@ -13,7 +13,8 @@
     require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/db.php');
     require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
     $likes = Project::getLikes($pid);
-    if (array_key_exists($username, $likes)) {
+    //make sure $likes is not null first
+    if ($likes && array_key_exists($username, $likes)) {
         //user already likes the project
         exit();
     }
