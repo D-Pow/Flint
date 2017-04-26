@@ -8,6 +8,14 @@
     <title>Flint</title>
 </head>
 <body>
-    <?php require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/route.php'); ?>
+    <?php
+        if (isset($_SESSION['username'])) {
+            //set header if logged in
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/header.php');
+        }
+
+        //call correct controller
+        require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/route.php');
+    ?>
 </body>
 </html>

@@ -101,24 +101,7 @@
             ";
         return $html;
     }
-?>
 
-<!--Header content-->
-<h2 id='user-title'>Welcome <?php echo $username; ?>!</h2>
-<br /><br />
-<ul id='nav'>
-    <li>
-        <a class='button' id='edit-profile'
-            href='/Flint/?controller=pages&action=user&user=<?php 
-            echo $username; ?>'>Profile</a>
-    </li>
-    <li>
-        <a class='button' id='logout'
-            href='/Flint/?controller=pages&action=logout'>Logout</a>
-    </li>
-</ul>
-
-<?php
     //arrays will hold the html to display and will be shuffled
     //so that different types of content are mixed together
     //display new content first
@@ -151,11 +134,11 @@
     }
 
     //print last login time
-    echo "<p class='divider'>
-            ------------------------last login: "
+    echo "<h3 class='divider'>
+            -----------------last login: "
             . date('H:i:s, m-d-Y', strtotime($_SESSION['last_login'])) .
-            "------------------------
-          </p>";
+            "-----------------
+          </h3>";
 
     //everything that happended before the last login
     $oldContent = [];
@@ -187,9 +170,9 @@
     }
 
     //separate non-followed content from followed content
-    echo "<p class='divider'>
-            ----------------------------non-followed content----------------------------
-          </p>";
+    echo "<h3 class='divider'>
+            ------------------------non-followed content------------------------
+          </h3>";
 
     //everything that happended before the last login
     $nonfollowedContent = [];

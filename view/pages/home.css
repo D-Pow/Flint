@@ -1,22 +1,3 @@
-#user-title {
-    margin: 0;
-    position: fixed;
-    right: 20px;
-}
-
-#nav {
-    display: block;
-    list-style-type: none;
-    margin-top: 10px;
-    right: 20px;
-    position: fixed;
-}
-
-li {
-    margin: 0px;
-    display: inline;
-}
-
 .divider {
     margin-bottom: 0;
     padding-bottom: 0;

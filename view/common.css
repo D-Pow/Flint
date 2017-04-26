@@ -12,6 +12,25 @@ body {
     display: none !important;
 }
 
+#user-title {
+    margin: 0;
+    position: fixed;
+    right: 20px;
+}
+
+#nav {
+    display: block;
+    list-style-type: none;
+    margin-top: 10px;
+    right: 20px;
+    position: fixed;
+}
+
+#nav li {
+    margin: 0px;
+    display: inline;
+}
+
 .button {
     /*button links*/
     color: rgb(211, 230, 251);

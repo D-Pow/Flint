@@ -1,0 +1,8 @@
+.entry-title {
+    text-decoration: none;
+    color: rgb(0,152,5);
+}
+
+.entry-title:hover {
+    color: red;
+}
