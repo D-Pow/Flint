@@ -89,7 +89,8 @@
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <?php
-
+    //display updates and comments, sorted first by update vs comment,
+    //then by post time
     foreach (displayPosts($updates, $comments) as $post) {
         echo $post;
     }
@@ -111,7 +112,8 @@
                                 . "'>"
                                 . $update->author . "
                             </a>
-                            posted an update
+                            posted an update ("
+                            . date('h:i A, m-d-Y', strtotime($update->ctime)).")
                         </h4>
                         <p>"
                         . $update->comment . "
@@ -132,6 +134,8 @@
                                 . "'>"
                                 . $comment->author . "
                             </a>
+                            ("
+                            . date('h:i A, m-d-Y', strtotime($comment->ctime)).")
                         </h4>
                         <p>"
                         . $comment->comment . "

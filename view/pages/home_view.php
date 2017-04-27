@@ -54,6 +54,9 @@
                         . "'>"
                         . $project->pname ."
                     </a>
+                    <br />
+                    ("
+                    . date('h:i A, m-d-Y', strtotime($project->post_time)).")
                 </h4>
                 <p>"
                 . $project->description . "
@@ -86,8 +89,11 @@
                         .  $donation->pid
                         . "'>"
                         . $donation->pname . "
-                    </a>
-                    .
+                    </a> 
+                    on
+                </p>
+                <p>"
+                    . date('h:i A, m-d-Y', strtotime($donation->pledge_time)).".
                 </p>
             </div>
             ";
@@ -118,6 +124,8 @@
                         .  $post->pid
                         . "'>" . $post->pname . "
                     </a>
+                    <br />("
+                        . date('h:i A, m-d-Y', strtotime($post->ctime)).")
                 </h4>
                 <p>"
                 . $post->comment . "
@@ -169,7 +177,7 @@
     //print last login time
     echo "<h3 class='divider'>
             -----------------last login: "
-            . date('H:i:s, m-d-Y', strtotime($_SESSION['last_login'])) .
+            . date('h:i A, m-d-Y', strtotime($_SESSION['last_login'])) .
             "-----------------
           </h3>";
 
