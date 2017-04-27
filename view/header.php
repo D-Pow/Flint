@@ -1,4 +1,5 @@
 <!--Header content-->
+<div id='header'>
 <h2 id='user-title'>Welcome <?php echo $_SESSION['username']; ?>!</h2>
 <br /><br />
 <ul id='nav'>
@@ -24,3 +25,4 @@
             href='/Flint/?controller=pages&action=logout'>Logout</a>
     </li>
 </ul>
+</div>
