@@ -87,3 +87,59 @@
 ?>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
+
+<?php
+
+    foreach (displayPosts($updates, $comments) as $post) {
+        echo $post;
+    }
+
+    function displayPosts($updates, $comments) {
+        $posts = [];
+        if ($updates) {
+            //print divider for posts
+            echo "<h3 class='divider'>
+                    ----------------------------------Posts----------------------------------
+                  </h3>";
+            foreach ($updates as $update) {
+                $html = "
+                    <div class='entry'>
+                        <h4>
+                            <a class='entry-title' 
+                                href='/Flint/?controller=pages&action=user&user="
+                                . $update->author
+                                . "'>"
+                                . $update->author . "
+                            </a>
+                            posted an update
+                        </h4>
+                        <p>"
+                        . $update->comment . "
+                        </p>
+                    </div>
+                ";
+                $posts[] = $html;
+            }
+        }
+        if ($comments) {
+            foreach ($comments as $comment) {
+                $html = "
+                    <div class='entry'>
+                        <h4>
+                            <a class='entry-title' 
+                                href='/Flint/?controller=pages&action=user&user="
+                                . $comment->author
+                                . "'>"
+                                . $comment->author . "
+                            </a>
+                        </h4>
+                        <p>"
+                        . $comment->comment . "
+                        </p>
+                    </div>
+                ";
+                $posts[] = $html;
+            }
+        }
+        return $posts;
+    }

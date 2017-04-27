@@ -20,6 +20,46 @@
         }
 
         /**
+         * Gets all the updates for a project ordered by date
+         */
+        public static function getUpdates($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT uid, username, pid, comment, ctime FROM ProjectUpdate "
+                ."WHERE pid=:p ORDER BY ctime DESC;";
+            $results = $db->runSelect($q, [':p' => $pid]);
+            if ($results) {
+                $posts = [];
+                foreach ($results as $row) {
+                    $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
+                        $row['comment'], $row['ctime'], null, true);
+                }
+                return $posts;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Get all comments for a project ordered by date
+         */
+        public static function getComments($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT cid, username, pid, comment, ctime FROM Comment "
+                ."WHERE pid=:p ORDER BY ctime DESC;";
+            $results = $db->runSelect($q, [':p' => $pid]);
+            if ($results) {
+                $posts = [];
+                foreach ($results as $row) {
+                    $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
+                        $row['comment'], $row['ctime'], null, true);
+                }
+                return $posts;
+            } else {
+                return null;
+            }
+        }
+
+        /**
          * Get both comments and project updates for all
          * people that the user follows
          */

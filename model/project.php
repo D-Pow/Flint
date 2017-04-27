@@ -120,7 +120,7 @@
         /**
          * Get all projects by a certain owner.
          */
-        public static function getProjectByUsername($username) {
+        public static function getProjectsByUsername($username) {
             $db = DB::getInstance();
             $q = "SELECT * FROM Project WHERE username=:u;";
             $entries = array(":u" => $username);

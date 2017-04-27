@@ -86,6 +86,10 @@
             $pid = intval($pid);  //only allow ints
             $project = Project::getProject($pid);
             $likes = Project::getLikes($pid);
+            //get comments and updates for a project
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
+            $updates = Post::getUpdates($pid);
+            $comments = Post::getComments($pid);
             if ($project) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
                 $totalFunds = Donation::getTotalDonations($pid);
@@ -97,7 +101,7 @@
 
         public function posted_projects() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
-            $projects = Project::getProjectByUsername($_SESSION['username']);
+            $projects = Project::getProjectsByUsername($_SESSION['username']);
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/user_projects.php');
         }
 

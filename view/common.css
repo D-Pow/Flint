@@ -12,6 +12,13 @@ body {
     display: none !important;
 }
 
+.divider {
+    margin-bottom: 0;
+    padding-bottom: 0;
+    text-align: center;
+    color: rgb(148,113,113);
+}
+
 #user-title {
     margin: 0;
     position: fixed;
