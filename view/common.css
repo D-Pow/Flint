@@ -70,7 +70,7 @@ body {
 
 #container {
     /*display: inline-block;*/
-    width: 310px;
+    width: 400px;
     height: 15%;
     border-radius: 25px;
     padding: 30px 30px 80px 30px;
@@ -115,6 +115,11 @@ body {
 }
 
 .error {
+    text-align: center;
+}
+
+#login-title {
+    font-family: cursive;
     text-align: center;
 }
 

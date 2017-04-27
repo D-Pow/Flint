@@ -4,7 +4,6 @@
     <?php
         //if owner, allow them to change description
         if ($_SESSION['username'] == $project->username) {
-            echo "<script src='/Flint/view/pages/js/project_update.js'></script>";
             echo "<h1>Title: "
                 ."<input id='title' type='text' value='".$project->pname."'>"
                 ."</h1>";
@@ -31,7 +30,6 @@
     <?php
         //if owner, allow them to change description
         if ($_SESSION['username'] == $project->username) {
-            echo "<script src='/Flint/view/pages/js/project_update.js'></script>";
             echo "<textarea id='description' type='text' rows='10' cols='50'>"
                 .$project->description."</textarea>";
             echo "<button id='save' onclick='saveChanges("
@@ -68,7 +66,6 @@
         <button type='button' id='submit'
                 onclick='donate(<?php echo $project->pid; ?>)'>Donate</button>
         <p id='reply'></p>
-        <script src='/Flint/view/pages/js/donate.js'></script>
         <?php
     }
     if (($project->username != $_SESSION['username'] && $likes
@@ -79,13 +76,13 @@
         ?>
         <button type='button' id='like-button'
                 onclick='like(<?php echo $project->pid; ?>)'>Like</button>
-        <script src='/Flint/view/pages/js/project_like.js'></script>
         <?php
     }
     //output how many people like the project
     echo "<p id='likes'>".count($likes)." likes</p>";
 ?>
 </div>
+<script src='/Flint/view/pages/js/project.js'></script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <?php
