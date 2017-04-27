@@ -17,6 +17,7 @@ function saveChanges() {
         },
         success: function(result) {
             alert(result);
+            window.location.href = '/Flint/?controller=pages&action=home'
         }
     });
 }

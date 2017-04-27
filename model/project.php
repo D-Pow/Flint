@@ -118,6 +118,38 @@
         }
 
         /**
+         * Get all projects by a certain owner.
+         */
+        public static function getProjectByUsername($username) {
+            $db = DB::getInstance();
+            $q = "SELECT * FROM Project WHERE username=:u;";
+            $entries = array(":u" => $username);
+            $results = $db->runSelect($q, $entries);
+            if ($results) {
+                $projects = [];
+                foreach ($results as $row) {
+                    $projects[] = new Project(
+                            $row['pid'],
+                            $row['username'],
+                            $row['pname'],
+                            $row['description'],
+                            $row['post_time'],
+                            $row['proj_completed'],
+                            $row['completion_time'],
+                            $row['minfunds'],
+                            $row['maxfunds'],
+                            $row['camp_end_time'],
+                            $row['camp_finished'],
+                            $row['camp_success']
+                        );
+                }
+                return $projects;
+            } else {
+                return null;
+            }
+        }
+
+        /**
          * Get a list of project details for all projects
          * not liked by a given user and sorted by the given field.
          */

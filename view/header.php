@@ -7,6 +7,10 @@
             href='/Flint/?controller=pages&action=home'>Home</a>
     </li>
     <li>
+        <a class='button' id='posted-projects'
+            href='/Flint/?controller=pages&action=posted_projects'>My Projects</a>
+    </li>
+    <li>
         <a class='button' id='new-project'
             href='/Flint/?controller=pages&action=new'>New Project</a>
     </li>

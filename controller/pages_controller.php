@@ -95,6 +95,12 @@
             }
         }
 
+        public function posted_projects() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
+            $projects = Project::getProjectByUsername($_SESSION['username']);
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/user_projects.php');
+        }
+
         /**
          * New project page
          */

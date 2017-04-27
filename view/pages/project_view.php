@@ -6,7 +6,7 @@
         if ($_SESSION['username'] == $project->username) {
             echo "<script src='/Flint/view/pages/js/project_update.js'></script>";
             echo "<h1>Title: "
-                ."<input id='title' type='text' value=".$project->pname.">"
+                ."<input id='title' type='text' value='".$project->pname."'>"
                 ."</h1>";
         } else {
             //otherwise, just output the title
