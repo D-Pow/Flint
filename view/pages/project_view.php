@@ -2,8 +2,9 @@
 
 <div id="container">
     <?php
+        $owner = ($_SESSION['username'] == $project->username);
         //if owner, allow them to change description
-        if ($_SESSION['username'] == $project->username) {
+        if ($owner) {
             echo "<h1>Title: "
                 ."<input id='title' type='text' value='".$project->pname."'>"
                 ."</h1>";
@@ -29,7 +30,7 @@
     <h3>Description:</h3>
     <?php
         //if owner, allow them to change description
-        if ($_SESSION['username'] == $project->username) {
+        if ($owner) {
             echo "<textarea id='description' type='text' rows='10' cols='50'>"
                 .$project->description."</textarea>";
             echo "<button id='save' onclick='saveChanges("
@@ -80,6 +81,26 @@
     }
     //output how many people like the project
     echo "<p id='likes'>".count($likes)." likes</p>";
+    echo "<br />";
+    //give ability to comment/update only if the project isn't complete
+    //note that this means people can comment on failed project in order
+    //to give feedback as to why the project failed or to encourage the
+    //owner to try again
+    if (!$project->proj_completed) :
+        if ($owner) {
+            echo "<h2>Post an update: </h2>";
+        } else {
+            echo "<h2>Post a comment: </h2>";
+        }
+        ?>
+        <input type='text' id='post-content'>
+        <br />
+        <button type='button' id='post-button'
+           onclick='post(
+            <?php echo $project->pid.','.intval($owner).',"'.$_SESSION['username'].'"'; 
+            ?>)'>Post</button>
+        <?php
+    endif;
 ?>
 </div>
 <script src='/Flint/view/pages/js/project.js'></script>
@@ -94,14 +115,16 @@
 
     function displayPosts($updates, $comments) {
         $posts = [];
-        if ($updates) {
-            //print divider for posts
+        if ($updates || $comments) {
+            //print divider for posts if they exist
             echo "<h3 class='divider'>
                     ----------------------------------Posts----------------------------------
                   </h3>";
+        }
+        if ($updates) {
             foreach ($updates as $update) {
                 $html = "
-                    <div class='entry'>
+                    <div class='entry update-post'>
                         <h4>
                             <a class='entry-title' 
                                 href='/Flint/?controller=pages&action=user&user="
@@ -123,7 +146,7 @@
         if ($comments) {
             foreach ($comments as $comment) {
                 $html = "
-                    <div class='entry'>
+                    <div class='entry comment-post'>
                         <h4>
                             <a class='entry-title' 
                                 href='/Flint/?controller=pages&action=user&user="
