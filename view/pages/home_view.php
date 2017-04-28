@@ -60,10 +60,32 @@
                 </h4>
                 <p>"
                 . $project->description . "
-                </p>
+                </p>".getTags($project)."
             </div>
             ";
         return $html;
+    }
+
+    /**
+     * Gets the tags for a given project
+     */
+    function getTags($project) {
+        $str = "";
+        if ($project->tags) {
+            $str .= "<br /><h4 style='margin: 0'>Tags: </h4><p>";
+            $length = count($project->tags);
+            for ($i = 0; $i < $length; $i++) {
+                $tag_name = $project->tags[$i];
+                //only put comma if it's not the last tag
+                $end = $i+1 == $length ? "" : ", ";
+                $content = "<a class='entry-title' "
+                        ."href='/Flint/?controller=pages&action=tag&tag="
+                        .$tag_name."'>".$tag_name."</a>";
+                $str .= $content.$end;
+            }
+            $str .= "</p>";
+        }
+        return $str;
     }
 
     /**

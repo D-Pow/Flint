@@ -130,6 +130,16 @@
         }
 
         /**
+         * Display a tag page that has all projects with a given tag name
+         */
+        public function tag() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
+            $tag_name = $_GET['tag'];
+            $projects = Project::getProjectsByTagName($tag_name);
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/tag_view.php');
+        }
+
+        /**
          * Gets all items (posts, projects, etc.) from the itemArray
          * whose field specified by $field come after the $date
          * 

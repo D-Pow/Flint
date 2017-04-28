@@ -12,10 +12,11 @@
         public $camp_end_time;
         public $camp_finished;
         public $camp_success;
+        public $tags;
 
         public function __construct($pid, $username, $pname, $description, $post_time,
                 $proj_completed, $completion_time, $minfunds, $maxfunds, $camp_end_time,
-                $camp_finished, $camp_success) {
+                $camp_finished, $camp_success, $tags) {
             $this->pid = $pid;
             $this->username = $username;
             $this->pname = $pname;
@@ -28,6 +29,7 @@
             $this->camp_end_time = $camp_end_time;
             $this->camp_finished = $camp_finished;
             $this->camp_success = $camp_success;
+            $this->tags = $tags;
         }
 
         /**
@@ -38,6 +40,7 @@
             $q = "SELECT * FROM Project WHERE pid=:p;";
             $entries = array(":p" => $pid);
             $results = $db->runSelect($q, $entries);
+            $tags = self::getProjectTags($pid);
             if ($results) {
                 $row = $results[0];   //only one project with given pid
                 $project = new Project(
@@ -52,9 +55,64 @@
                         $row['maxfunds'],
                         $row['camp_end_time'],
                         $row['camp_finished'],
-                        $row['camp_success']
+                        $row['camp_success'],
+                        $tags
                     );
                 return $project;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Gets all the tags of a project.
+         * Returns an array of tags or an empty array if none.
+         */
+        public static function getProjectTags($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT name AS tag_name FROM Project JOIN Ptags USING(pid) "
+                ."JOIN Tags USING(tid) WHERE pid=:p;";
+            $e = [':p' => $pid];
+            $results = $db->runSelect($q, $e);
+            $tags = [];
+            if ($results) {
+                foreach ($results as $row) {
+                    $tags[] = $row['tag_name'];
+                }
+            }
+            return $tags;
+        }
+
+        /**
+         * Gets all projects with a given tag name
+         * We only need pid and pname
+         */
+        public static function getProjectsByTagName($tag_name) {
+            $db = DB::getInstance();
+            $q = "SELECT pid, pname, description FROM Project JOIN Ptags USING(pid) "
+                ."JOIN Tags USING(tid) WHERE name=:tn;";
+            $results = $db->runSelect($q, [':tn' => $tag_name]);
+            if ($results) {
+                $projects = [];
+                foreach ($results as $row) {
+                    $tags = self::getProjectTags($row['pid']);
+                    $projects[] = new Project(
+                            $row['pid'],
+                            null,
+                            $row['pname'],
+                            $row['description'],
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            null,
+                            $tags
+                        );
+                }
+                return $projects;
             } else {
                 return null;
             }
@@ -77,6 +135,7 @@
             if ($results) {
                 $projects = [];
                 foreach ($results as $row) {
+                    $tags = self::getProjectTags($row['pid']);
                     $projects[] = new Project(
                             $row['pid'],
                             $row['username'],
@@ -89,7 +148,8 @@
                             $row['maxfunds'],
                             $row['camp_end_time'],
                             $row['camp_finished'],
-                            $row['camp_success']
+                            $row['camp_success'],
+                            $tags
                         );
                 }
                 return $projects;
@@ -128,6 +188,7 @@
             if ($results) {
                 $projects = [];
                 foreach ($results as $row) {
+                    $tags = self::getProjectTags($row['pid']);
                     $projects[] = new Project(
                             $row['pid'],
                             $row['username'],
@@ -140,7 +201,8 @@
                             $row['maxfunds'],
                             $row['camp_end_time'],
                             $row['camp_finished'],
-                            $row['camp_success']
+                            $row['camp_success'],
+                            $tags
                         );
                 }
                 return $projects;
@@ -163,6 +225,7 @@
             if ($results) {
                 $projects = [];
                 foreach ($results as $row) {
+                    $tags = self::getProjectTags($row['pid']);
                     $projects[] = new Project(
                             $row['pid'],
                             $row['username'],
@@ -175,7 +238,8 @@
                             $row['maxfunds'],
                             $row['camp_end_time'],
                             $row['camp_finished'],
-                            $row['camp_success']
+                            $row['camp_success'],
+                            $tags
                         );
                 }
                 return $projects;
