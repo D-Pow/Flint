@@ -86,11 +86,11 @@
     //note that this means people can comment on failed project in order
     //to give feedback as to why the project failed or to encourage the
     //owner to try again
-    if (!$project->proj_completed) :
+    if (!$project->proj_completed) {
         if ($owner) {
-            echo "<h2>Post an update: </h2>";
+            echo "<h2 id='post-title'>Post an update: </h2>";
         } else {
-            echo "<h2>Post a comment: </h2>";
+            echo "<h2 id='post-title'>Post a comment: </h2>";
         }
         ?>
         <input type='text' id='post-content'>
@@ -99,8 +99,9 @@
            onclick='post(
             <?php echo $project->pid.','.intval($owner).',"'.$_SESSION['username'].'"'; 
             ?>)'>Post</button>
+        <p id='post-thanks'></p>
         <?php
-    endif;
+    }
 ?>
 </div>
 <script src='/Flint/view/pages/js/project.js'></script>

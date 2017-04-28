@@ -88,15 +88,15 @@ function post(pid, owner, username) {
         success: function(result) {
             if (result == "Post successful") {
                 //make new post and insert it above all other posts
-                var previousPost;
                 if (owner) {
-                    previousPost = document.getElementsByClassName("update-post")[0];
+                    var className = "update-post";
                 } else {
-                    previousPost = document.getElementsByClassName("comment-post")[0];
+                    var className = "comment-post";
                 }
+                var previousPost = document.getElementsByClassName(className)[0];
                 //make new post
                 var newPost = `
-                    <div class='entry comment-post'> 
+                    <div class='entry ` + className + `'> 
                         <h4> 
                             <a class='entry-title'
                                 href='/Flint/?controller=pages&action=user&user=`
@@ -109,6 +109,12 @@ function post(pid, owner, username) {
                 var wrapper = document.createElement('div');
                 document.body.insertBefore(wrapper, previousPost);
                 wrapper.innerHTML = newPost;
+                //clear input after posting
+                var input = document.getElementById('post-content');
+                var btn = document.getElementById('post-button');
+                input.parentNode.removeChild(input);
+                btn.parentNode.removeChild(btn);
+                document.getElementById('post-thanks').innerHTML = "Thanks for posting";
             } else {
                 alert(result);
             }
