@@ -8,6 +8,133 @@
         <?php
     }
 
+    //put search bar at the top of the page
+    ?>
+    <div id='search-content'>
+        <input id='search-bar' type='text' placeholder='Search'>
+        <button type='button' id='search-btn' 
+            onclick="search()">Search</button>
+        <script>
+            function search() {
+                window.location.href=
+                    "/Flint/?controller=pages&action=search&q=" + 
+                    document.getElementById("search-bar").value;
+                e.stopPropagation();
+                return;
+            }
+        </script>
+    </div>
+    <?php
+
+    //display rating requests first of all posts
+    if ($requestedRatings) {
+        foreach ($requestedRatings as $project) {
+            echo displayRatingRequest($project);
+        }
+    }
+
+    //arrays will hold the html to display and will be shuffled
+    //so that different types of content are mixed together
+
+    //display new content before old content
+    $newContent = [];
+
+    //projects
+    if ($sortedProjects[0]) {
+        foreach ($sortedProjects[0] as $project) {
+            $newContent[] = displayProject($project);
+        }
+    }
+    
+    //donations
+    if ($sortedDonations[0]) {
+        foreach ($sortedDonations[0] as $donation) {
+            $newContent[] = displayDonation($donation);
+        }
+    }
+
+    //posts
+    if ($sortedPosts[0]) {
+        foreach ($sortedPosts[0] as $post) {
+            $newContent[] = displayPost($post);
+        }
+    }
+
+    shuffle($newContent);
+    foreach ($newContent as $html) {
+        echo $html;
+    }
+
+    //print last login time
+    echo "<h3 class='divider'>
+            -----------------last login: "
+            . date('h:i A, m-d-Y', strtotime($_SESSION['last_login'])) .
+            "-----------------
+          </h3>";
+
+    //everything that happended before the last login
+    $oldContent = [];
+
+    //projects
+    if ($sortedProjects[1]) {
+        foreach ($sortedProjects[1] as $project) {
+            $oldContent[] = displayProject($project);
+        }
+    }
+    
+    //donations
+    if ($sortedDonations[1]) {
+        foreach ($sortedDonations[1] as $donation) {
+            $oldContent[] = displayDonation($donation);
+        }
+    }
+
+    //posts
+    if ($sortedPosts[1]) {
+        foreach ($sortedPosts[1] as $post) {
+            $oldContent[] = displayPost($post);
+        }
+    }
+
+    shuffle($oldContent);
+    foreach ($oldContent as $html) {
+        echo $html;
+    }
+
+    //separate non-followed content from followed content
+    echo "<h3 class='divider'>
+            ------------------------non-followed content------------------------
+          </h3>";
+
+    //display non-followed content, too
+    $nonfollowedContent = [];
+
+    //projects
+    if ($nonlikedProjects) {
+        foreach($nonlikedProjects as $project) {
+            $nonfollowedContent[] = displayProject($project);
+        }
+    }
+    
+    //donations
+    if ($nonfollowedDonations) {
+        foreach($nonfollowedDonations as $donation) {
+            $nonfollowedContent[] = displayDonation($donation);
+        }
+    }
+
+    //posts
+    if ($nonfollowedPosts) {
+        foreach($nonfollowedPosts as $post) {
+            $nonfollowedContent[] = displayPost($post);
+        }
+    }
+
+    shuffle($nonfollowedContent);
+    foreach ($nonfollowedContent as $html) {
+        echo $html;
+    }
+
     /**
      * Display a request to the user to rate a project
      */
@@ -155,115 +282,6 @@
             </div>
             ";
         return $html;
-    }
-
-    //display rating requests first
-    if ($requestedRatings) {
-        foreach ($requestedRatings as $project) {
-            echo displayRatingRequest($project);
-        }
-    }
-
-    //arrays will hold the html to display and will be shuffled
-    //so that different types of content are mixed together
-
-    //display new content before old content
-    $newContent = [];
-
-    //projects
-    if ($sortedProjects[0]) {
-        foreach ($sortedProjects[0] as $project) {
-            $newContent[] = displayProject($project);
-        }
-    }
-    
-    //donations
-    if ($sortedDonations[0]) {
-        foreach ($sortedDonations[0] as $donation) {
-            $newContent[] = displayDonation($donation);
-        }
-    }
-
-    //posts
-    if ($sortedPosts[0]) {
-        foreach ($sortedPosts[0] as $post) {
-            $newContent[] = displayPost($post);
-        }
-    }
-
-    shuffle($newContent);
-    foreach ($newContent as $html) {
-        echo $html;
-    }
-
-    //print last login time
-    echo "<h3 class='divider'>
-            -----------------last login: "
-            . date('h:i A, m-d-Y', strtotime($_SESSION['last_login'])) .
-            "-----------------
-          </h3>";
-
-    //everything that happended before the last login
-    $oldContent = [];
-
-    //projects
-    if ($sortedProjects[1]) {
-        foreach ($sortedProjects[1] as $project) {
-            $oldContent[] = displayProject($project);
-        }
-    }
-    
-    //donations
-    if ($sortedDonations[1]) {
-        foreach ($sortedDonations[1] as $donation) {
-            $oldContent[] = displayDonation($donation);
-        }
-    }
-
-    //posts
-    if ($sortedPosts[1]) {
-        foreach ($sortedPosts[1] as $post) {
-            $oldContent[] = displayPost($post);
-        }
-    }
-
-    shuffle($oldContent);
-    foreach ($oldContent as $html) {
-        echo $html;
-    }
-
-    //separate non-followed content from followed content
-    echo "<h3 class='divider'>
-            ------------------------non-followed content------------------------
-          </h3>";
-
-    //display non-followed content, too
-    $nonfollowedContent = [];
-
-    //projects
-    if ($nonlikedProjects) {
-        foreach($nonlikedProjects as $project) {
-            $nonfollowedContent[] = displayProject($project);
-        }
-    }
-    
-    //donations
-    if ($nonfollowedDonations) {
-        foreach($nonfollowedDonations as $donation) {
-            $nonfollowedContent[] = displayDonation($donation);
-        }
-    }
-
-    //posts
-    if ($nonfollowedPosts) {
-        foreach($nonfollowedPosts as $post) {
-            $nonfollowedContent[] = displayPost($post);
-        }
-    }
-
-    shuffle($nonfollowedContent);
-    foreach ($nonfollowedContent as $html) {
-        echo $html;
     }
 
 ?>

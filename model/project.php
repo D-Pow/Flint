@@ -318,5 +318,57 @@
             }
         }
 
+        /**
+         * Searches pnames and descriptions for the keyword
+         */
+        public static function searchProjects($keyword) {
+            $db = DB::getInstance();
+            $q = "SELECT * FROM Project WHERE lower(pname) LIKE '%:k%' OR "
+                ."lower(description) LIKE '%:k%';";
+            $results = $db->runSelect($q, [':k' => $keyword]);
+            if ($results) {
+                $projects = [];
+                foreach ($results as $row) {
+                    $tags = self::getProjectTags($row['pid']);
+                    $projects[] = new Project(
+                            $row['pid'],
+                            $row['username'],
+                            $row['pname'],
+                            $row['description'],
+                            $row['post_time'],
+                            $row['proj_completed'],
+                            $row['completion_time'],
+                            $row['minfunds'],
+                            $row['maxfunds'],
+                            $row['camp_end_time'],
+                            $row['camp_finished'],
+                            $row['camp_success'],
+                            $tags
+                        );
+                }
+                return $projects;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Get all tags that match a given keyword
+         */
+        public static function searchTags($keyword) {
+            $db = DB::getInstance();
+            $q = "SELECT name FROM Tags WHERE lower(name) LIKE '%:k%';";
+            $results = $db->runSelect($q, [':k' => $keyword]);
+            if ($results) {
+                $tags = [];
+                foreach ($results as $row) {
+                    $tags[] = $row['name'];
+                }
+                return $tags;
+            } else {
+                return null;
+            }
+        }
+
     }
 ?>

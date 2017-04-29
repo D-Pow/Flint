@@ -67,6 +67,7 @@
         public function user() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/user.php');
             $username = $_GET['user'];
+            $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); //sanitize
             $user = User::getUser($username);
             if ($user) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
@@ -83,6 +84,7 @@
         public function project() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             $pid = $_GET['pid'];
+            $pid = htmlspecialchars($pid, ENT_QUOTES, 'UTF-8'); //sanitize
             $pid = intval($pid);  //only allow ints
             $project = Project::getProject($pid);
             $likes = Project::getLikes($pid);
@@ -118,6 +120,8 @@
         public function rate() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             $pid = $_GET['pid'];
+            $pid = htmlspecialchars($pid, ENT_QUOTES, 'UTF-8');
+            $pid = intval($pid);
             $project = Project::getProject($pid);
             if ($project) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
@@ -135,8 +139,25 @@
         public function tag() {
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             $tag_name = $_GET['tag'];
+            $tag_name = htmlspecialchars($tag_name, ENT_QUOTES, 'UTF-8');
             $projects = Project::getProjectsByTagName($tag_name);
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/tag_view.php');
+        }
+
+        /**
+         * Display the search-results page
+         */
+        public function search() {
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/user.php');
+            $keyword = $_GET['q'];
+            $keyword = htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8');
+            $keyword = strtolower($keyword);
+            $projects = Project::searchProjects($keyword);
+            $users = User::searchUsers($keyword);
+            $tags = Project::searchTags($keyword);
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/search.php');
         }
 
         /**

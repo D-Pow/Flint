@@ -3,7 +3,7 @@
     $controllers = ['login' => ['login','createnew'],
                     'pages' => ['error','logout','home','user',
                                 'post','project', 'new','rate',
-                                'posted_projects', 'tag']];
+                                'posted_projects', 'tag', 'search']];
 
     if (array_key_exists($controller, $controllers)) {
         if (in_array($action, $controllers[$controller])) {

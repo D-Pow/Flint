@@ -23,6 +23,9 @@
             $this->last_login = $last_login;
         }
 
+        /**
+         * Gets a user object that has a given username
+         */
         public static function getUser($username) {
             $db = DB::getInstance();
             $q = "SELECT * FROM User WHERE username=:u;";
@@ -41,6 +44,35 @@
                         $row['last_login']
                     );
                 return $user;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Searches all users that have a name like the keyword
+         */
+        public static function searchUsers($keyword) {
+            $db = DB::getInstance();
+            $q = "SELECT * FROM User WHERE lower(username) LIKE '%:k%';";
+            $results = $db->runSelect($q, array(":k" => $keyword));
+            if ($results) {
+                $users = [];
+                foreach ($results as $row) {
+                    $user = new User(
+                            $row['username'],
+                            $row['uname'],
+                            $row['email'],
+                            $row['str_addr'],
+                            $row['ucity'],
+                            $row['ustate'],
+                            $row['interests'],
+                            null, //don't give out credit card number
+                            $row['last_login']
+                        );
+                    $users[] = $user;
+                }
+                return $users;
             } else {
                 return null;
             }
