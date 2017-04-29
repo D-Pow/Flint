@@ -24,7 +24,9 @@ function saveChanges() {
         },
         success: function(result) {
             alert(result);
-            window.location.href = '/Flint/?controller=pages&action=home'
+            if (result == 'Project posted!') {
+                window.location.href = '/Flint/?controller=pages&action=home'
+            }
         }
     });
 }

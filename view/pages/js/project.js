@@ -4,6 +4,12 @@
 function saveChanges(pid) {
     var description = document.getElementById("description").value;
     var title = document.getElementById('title').value;
+    var tagsInput = document.getElementById('tags-input').value;
+    var tags = tagsInput.split(",");
+    for (var i = 0; i < tags.length; i++) {
+        //strip whitespace
+        tags[i] = tags[i].trim();
+    }
 
     $.ajax({
         method: 'POST',
@@ -11,7 +17,8 @@ function saveChanges(pid) {
         data: {
             description: description,
             pname: title,
-            pid: pid
+            pid: pid,
+            tags: tags
         },
         success: function(result) {
             alert(result);

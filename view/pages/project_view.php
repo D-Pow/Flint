@@ -33,8 +33,6 @@
         if ($owner) {
             echo "<textarea id='description' type='text' rows='10' cols='50'>"
                 .$project->description."</textarea>";
-            echo "<button id='save' onclick='saveChanges("
-                .$project->pid.")'>Save Changes</button>";
         } else {
             //otherwise, just output the description
             echo "<p>".$project->description."</p>";
@@ -82,26 +80,41 @@
     //output how many people like the project
     echo "<p id='likes'>".count($likes)." likes</p>";
     echo "<br />";
-    //give ability to comment/update only if the project isn't complete
+    if ($owner) {
+        //allow owner to change project tags
+        ?>
+        <h3 style='margin: 0;'>Tags: </h3>
+        <p style='margin: 0;'>(Please separate tags using commas)</p>
+        <?php
+        $tags = $project->tags;
+        $str = "";
+        for ($i = 0; $i < count($tags); $i++) {
+            $str .= $tags[$i].($i+1 == count($tags) ? "" : ", ");
+        }
+        echo "<input type='text' id='tags-input' value='{$str}'><br />";
+        echo "<button id='save' onclick='saveChanges("
+                .$project->pid.")'>Save Changes</button>";
+    } else {
+        echo getTags($project);
+    }
+    //give ability to comment/update even if the project is complete
     //note that this means people can comment on failed project in order
     //to give feedback as to why the project failed or to encourage the
     //owner to try again
-    if (!$project->proj_completed) {
-        if ($owner) {
-            echo "<h2 id='post-title'>Post an update: </h2>";
-        } else {
-            echo "<h2 id='post-title'>Post a comment: </h2>";
-        }
-        ?>
-        <input type='text' id='post-content'>
-        <br />
-        <button type='button' id='post-button'
-           onclick='post(
-            <?php echo $project->pid.','.intval($owner).',"'.$_SESSION['username'].'"'; 
-            ?>)'>Post</button>
-        <p id='post-thanks'></p>
-        <?php
+    if ($owner) {
+        echo "<h2 id='post-title'>Post an update: </h2>";
+    } else {
+        echo "<h2 id='post-title'>Post a comment: </h2>";
     }
+    ?>
+    <input type='text' id='post-content'>
+    <br />
+    <button type='button' id='post-button'
+       onclick='post(
+        <?php echo $project->pid.','.intval($owner).',"'.$_SESSION['username'].'"'; 
+        ?>)'>Post</button>
+    <p id='post-thanks'></p>
+    <?php
 ?>
 </div>
 <script src='/Flint/view/pages/js/project.js'></script>
@@ -114,6 +127,10 @@
         echo $post;
     }
 
+    /**
+     * Outputs the html as a string in order to display 
+     * comments and updates properly
+     */
     function displayPosts($updates, $comments) {
         $posts = [];
         if ($updates || $comments) {
@@ -168,3 +185,26 @@
         }
         return $posts;
     }
+
+    /**
+     * Gets the tags for a given project
+     */
+    function getTags($project) {
+        $str = "";
+        if ($project->tags) {
+            $str .= "<br /><h3 style='margin: 0'>Tags: </h3><p>";
+            $length = count($project->tags);
+            for ($i = 0; $i < $length; $i++) {
+                $tag_name = $project->tags[$i];
+                //only put comma if it's not the last tag
+                $end = $i+1 == $length ? "" : ", ";
+                $content = "<a class='entry-title' "
+                        ."href='/Flint/?controller=pages&action=tag&tag="
+                        .$tag_name."'>".$tag_name."</a>";
+                $str .= $content.$end;
+            }
+            $str .= "</p>";
+        }
+        return $str;
+    }
+?>
