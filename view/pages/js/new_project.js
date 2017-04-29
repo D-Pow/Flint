@@ -4,6 +4,12 @@ function saveChanges() {
     var minfunds = document.getElementById('minfunds').value;
     var maxfunds = document.getElementById('maxfunds').value;
     var date = document.getElementById('date').value;
+    var tagsInput = document.getElementById('tags-input').value;
+    var tags = tagsInput.split(",");
+    for (var i = 0; i < tags.length; i++) {
+        //strip whitespace
+        tags[i] = tags[i].trim();
+    }
 
     $.ajax({
         method: "POST",
@@ -13,7 +19,8 @@ function saveChanges() {
             description: description,
             minfunds: minfunds,
             maxfunds: maxfunds,
-            date: date
+            date: date,
+            tags: tags
         },
         success: function(result) {
             alert(result);

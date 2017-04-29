@@ -14,8 +14,12 @@
             title="Whole numbers" pattern="[0-9]"></p>
     <p>Maximum funds: <input id='maxfunds' type='number' step='1' 
             title="Whole numbers" pattern="[0-9]"></p>
-    <br />
     <h3>Campaign end time: <input id='date' type='date'></h3>
+    <h3 style='margin: 0;'>Tags: </h3>
+    <p style='margin: 0;'>(Please separate tags using commas)</p>
+    <input type='text' id='tags-input'>
+    <br />
+    <br />
     <button id='save' onclick='saveChanges()'>Post Project</button>
 </div>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
