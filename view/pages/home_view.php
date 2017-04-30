@@ -11,15 +11,22 @@
     //put search bar at the top of the page
     ?>
     <div id='search-content'>
-        <input id='search-bar' type='text' placeholder='Search'>
+        <input id='search-bar' type='text' placeholder='Search'
+                onkeydown="search(event)">
         <button type='button' id='search-btn' 
-            onclick="search()">Search</button>
+            onclick="search(13)">Search</button>
         <script>
-            function search() {
-                window.location.href=
-                    "/Flint/?controller=pages&action=search&q=" + 
-                    document.getElementById("search-bar").value;
-                e.stopPropagation();
+            function search(e) {
+                var code;
+                if (e != 13) {
+                    code = e.which || e.keyCode;
+                }
+                if (e == 13 || code == 13) {
+                    window.location.href=
+                        "/Flint/?controller=pages&action=search&q=" + 
+                        document.getElementById("search-bar").value;
+                    e.stopPropagation();
+                }
                 return;
             }
         </script>

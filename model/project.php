@@ -323,9 +323,9 @@
          */
         public static function searchProjects($keyword) {
             $db = DB::getInstance();
-            $q = "SELECT * FROM Project WHERE lower(pname) LIKE '%:k%' OR "
-                ."lower(description) LIKE '%:k%';";
-            $results = $db->runSelect($q, [':k' => $keyword]);
+            $q = "SELECT * FROM Project WHERE lower(pname) LIKE :k OR "
+                ."lower(description) LIKE :k;";
+            $results = $db->runSelect($q, [':k' => '%'.$keyword.'%']);
             if ($results) {
                 $projects = [];
                 foreach ($results as $row) {
@@ -357,8 +357,8 @@
          */
         public static function searchTags($keyword) {
             $db = DB::getInstance();
-            $q = "SELECT name FROM Tags WHERE lower(name) LIKE '%:k%';";
-            $results = $db->runSelect($q, [':k' => $keyword]);
+            $q = "SELECT name FROM Tags WHERE lower(name) LIKE :k;";
+            $results = $db->runSelect($q, [':k' => '%'.$keyword.'%']);
             if ($results) {
                 $tags = [];
                 foreach ($results as $row) {

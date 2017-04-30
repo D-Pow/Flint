@@ -157,7 +157,7 @@
             $projects = Project::searchProjects($keyword);
             $users = User::searchUsers($keyword);
             $tags = Project::searchTags($keyword);
-            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/search.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/search_view.php');
         }
 
         /**

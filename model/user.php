@@ -54,8 +54,8 @@
          */
         public static function searchUsers($keyword) {
             $db = DB::getInstance();
-            $q = "SELECT * FROM User WHERE lower(username) LIKE '%:k%';";
-            $results = $db->runSelect($q, array(":k" => $keyword));
+            $q = "SELECT * FROM User WHERE lower(username) LIKE :k;";
+            $results = $db->runSelect($q, [':k' => '%'.$keyword.'%']);
             if ($results) {
                 $users = [];
                 foreach ($results as $row) {
