@@ -285,7 +285,8 @@
                 </h4>
                 <p>"
                 . $post->comment . "
-                </p>
+                </p>"
+                . Media::displayMedia($post->mediaNames) . "
             </div>
             ";
         return $html;

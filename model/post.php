@@ -7,9 +7,10 @@
         public $ctime;
         public $pname;
         public $owner;  //if the post was made as a project update
+        public $mediaNames;
 
         public function __construct($id, $author, $pid, $comment,
-                    $ctime, $pname, $owner) {
+                    $ctime, $pname, $owner, $mediaNames) {
             $this->id = $id;
             $this->author = $author;
             $this->pid = $pid;
@@ -17,6 +18,7 @@
             $this->ctime = $ctime;
             $this->pname = $pname;
             $this->owner = $owner;
+            $this->mediaNames = $mediaNames;
         }
 
         /**
@@ -30,8 +32,9 @@
             if ($results) {
                 $posts = [];
                 foreach ($results as $row) {
+                    $mediaNames = self::getMedia($row['uid']);
                     $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], null, true);
+                        $row['comment'], $row['ctime'], null, true, $mediaNames);
                 }
                 return $posts;
             } else {
@@ -42,7 +45,7 @@
         /**
          * Gets the media associated with a specific update's uid
          */
-        public static function getMedia($uid) {
+        private static function getMedia($uid) {
             $db = DB::getInstance();
             $q = "SELECT filename FROM Media JOIN Umedia USING(mid) WHERE uid=:u;";
             $results = $db->runSelect($q, [':u' => $uid]);
@@ -69,7 +72,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], null, true);
+                        $row['comment'], $row['ctime'], null, true, null);
                 }
                 return $posts;
             } else {
@@ -111,8 +114,9 @@
             if ($results) {
                 $posts = [];
                 foreach ($results as $row) {
+                    $mediaNames = self::getMedia($row['uid']);
                     $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], $row['pname'], true);
+                        $row['comment'], $row['ctime'], $row['pname'], true, $mediaNames);
                 }
                 return $posts;
             } else {
@@ -135,7 +139,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], $row['pname'], false);
+                        $row['comment'], $row['ctime'], $row['pname'], false, null);
                 }
                 return $posts;
             } else {
@@ -177,8 +181,9 @@
             if ($results) {
                 $posts = [];
                 foreach ($results as $row) {
+                    $mediaNames = self::getMedia($row['uid']);
                     $posts[] = new Post($row['uid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], $row['pname'], true);
+                        $row['comment'], $row['ctime'], $row['pname'], true, $mediaNames);
                 }
                 return $posts;
             } else {
@@ -201,7 +206,7 @@
                 $posts = [];
                 foreach ($results as $row) {
                     $posts[] = new Post($row['cid'], $row['username'], $row['pid'],
-                        $row['comment'], $row['ctime'], $row['pname'], false);
+                        $row['comment'], $row['ctime'], $row['pname'], false, null);
                 }
                 return $posts;
             } else {

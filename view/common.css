@@ -123,6 +123,10 @@ body {
     text-align: center;
 }
 
+.media {
+    max-width: 350px;
+}
+
 input {
     font-family: cursive;
     margin: 7px;

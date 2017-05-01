@@ -48,8 +48,8 @@ function uploadMedia($uid) {
             $t = explode('.', $upfiles['name'][$i]);
             $ext = $t[count($t)-1]; //get text after final dot
     
-            //Name it uniquely
-            $name = sprintf($_SERVER['DOCUMENT_ROOT'].'/Flint/uploads/%s.%s',
+            //Name it uniquely, relative to the website directory
+            $name = sprintf('/Flint/uploads/%s.%s',
                         hash_file("sha256", $upfiles['tmp_name'][$i]), $ext
                     );
 
@@ -70,7 +70,10 @@ function uploadMedia($uid) {
             }
 
             //move to directory, or error if failed
-            if (!move_uploaded_file($upfiles['tmp_name'][$i], $name)) {
+            //note that move needs full path, not relative path
+            $moved = move_uploaded_file($upfiles['tmp_name'][$i],
+                    $_SERVER['DOCUMENT_ROOT'].$name);
+            if (!$moved) {
                 throw new RuntimeException('Failed to move uploaded file.');
             }
 
@@ -99,25 +102,74 @@ function uploadMedia($uid) {
     }
 }
 
-/**
- * Sorts the media to be displayed based on type
- */
-function loadMedia($filenames) {
-    $media = ['images' => [], 'sounds' => [], 'videos' => [], 'other' => []];
-    foreach ($filenames as $file) {
-        $mime = mime_content_type($file); //file type + extension
-        $type = explode('/', $mime)[0];   //only the type
-        if ($type == 'image') {
-            $media['images'][] = $file;
-        } else if ($mime == 'application/octet-stream') {
-            $media['sounds'][] = $file;
-        } else if ($type == 'video') {
-            $media['videos'][] = $file;
+class Media {
+
+    /**
+     * Sorts the media to be displayed based on type
+     */
+    private static function sortMedia($filenames) {
+        $media = ['images' => [], 'sounds' => [], 'videos' => [], 'other' => []];
+        foreach ($filenames as $file) {
+            //file type + extension
+            $mime = mime_content_type($_SERVER['DOCUMENT_ROOT'].$file);
+            $type = explode('/', $mime)[0];   //only the type
+            if ($type == 'image') {
+                $media['images'][] = $file;
+            } else if ($mime == 'application/octet-stream') {
+                $media['sounds'][] = $file;
+            } else if ($type == 'video') {
+                $media['videos'][] = $file;
+            } else {
+                $media['other'][] = $file;
+            }
+        }
+        return $media;
+    }
+    
+    /**
+     * Outputs the html required to display different types of media
+     * given an array of filenames
+     */
+    public static function displayMedia($filenames) {
+        if (!$filenames) {  //if no file uploads, return
+            return "";
+        }
+        $media = self::sortMedia($filenames);
+        $output = [];
+        foreach ($media['images'] as $image) {
+            $html = "<img src='{$image}' alt='image' class='media'>";
+            $output[] = $html;
+        }
+        foreach ($media['sounds'] as $sound) {
+            $html = "<audio class='media' controls>"
+                   ."<source src='{$sound}'>"
+                   ."Your browser does not support sound."
+                   ."</audio>";
+            $output[] = $html;
+        }
+        foreach ($media['videos'] as $video) {
+            $html = "<video class='media' controls>"
+                   ."<source src='{$video}'>"
+                   ."Your browser does not support video."
+                   ."</video>";
+            $output[] = $html;
+        }
+        $downloadName = 1;
+        foreach ($media['other'] as $other) {
+            //get extension
+            $t = explode('.', $other);
+            $ext = $t[count($t)-1];
+            //display shorter name than the large hash name
+            $html = "<a href='{$other}' download='{$downloadName}.{$ext}'>"
+                   ."{$downloadName}.{$ext}</a>";
+            $output[] = $html;
+        }
+        if ($output) {
+            return implode(" ", $output);
         } else {
-            $media['other'][] = $file;
+            return "";
         }
     }
-    return $media;
 }
 
 ?>

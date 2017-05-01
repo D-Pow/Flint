@@ -26,6 +26,7 @@
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/media.php');
 
             $username = $_SESSION['username'];
             $posts = Post::getFollowedPosts($username);
@@ -90,6 +91,7 @@
             $likes = Project::getLikes($pid);
             //get comments and updates for a project
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/media.php');
             $updates = Post::getUpdates($pid);
             $comments = Post::getComments($pid);
             if ($project) {

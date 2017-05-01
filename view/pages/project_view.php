@@ -15,19 +15,22 @@
     ?>
     <br />
 
-    <h3>Author:</h3>
+    <hr>
+    <h2>Author:</h2>
     <a class='entry-title' href='/Flint/?controller=pages&action=user&user=<?php
             echo $project->username; ?>'><?php echo $project->username; ?></a>
-
+    
+    <hr>
     <h2>Posted:</h2>
     <p><?php echo $project->post_time; ?></p>
     
     <?php if ($project->proj_completed) {
-            echo "<h3>Project completed: ".$project->completion_time."</h3>";
+            echo "<h2>Project completed: ".$project->completion_time."</h2>";
         }?>
     <br />
     
-    <h3>Description:</h3>
+    <hr>
+    <h2>Description:</h2>
     <?php
         //if owner, allow them to change description
         if ($owner) {
@@ -40,7 +43,8 @@
     ?>
     <br />
     
-    <h3>Funding:</h3>
+    <hr>
+    <h2>Funding:</h2>
     <p>Min: <?php echo $project->minfunds; ?><input id='donation-scale' type='range'
             min='<?php echo $project->minfunds; ?>'
             max='<?php echo $project->maxfunds; ?>'
@@ -51,15 +55,23 @@
         Current funds: <?php echo $totalFunds ? $totalFunds : 0; ?></p>
     
     <?php
+    //display all media
+    $media = Media::displayMedia(Project::getMedia($project->pid));
+    if ($media) {
+        echo "<hr><h2>Media: </h2>".$media;
+    }
+
+    //display if the campaign finished or if donations are still needed
     if ($project->camp_finished) {
-        echo "<h2>The campaign was "
+        echo "<hr><h2>The campaign was "
             .($project->camp_success ? "" : "not ")."a success.</h2>";
     } else if ($project->username != $_SESSION['username']) {
         //allow non-owners to donate
 
         //load donation options
         ?>
-        <h3>Would you be willing to donate?</h3>
+        <hr>
+        <h2>Would you be willing to donate?</h2>
         <input type='number' name='donation' id='donation' step='1' 
                 title="Whole numbers" pattern="[0-9]">
         <button type='button' id='submit'
@@ -73,17 +85,18 @@
         || ($project->username != $_SESSION['username'] && !$likes)) {
         //allow non-owners to like the project if they haven't liked it already
         ?>
+        <hr>
         <button type='button' id='like-button'
                 onclick='like(<?php echo $project->pid; ?>)'>Like</button>
         <?php
     }
     //output how many people like the project
     echo "<p id='likes'>".count($likes)." likes</p>";
-    echo "<br />";
+    
     if ($owner) {
         //allow owner to change project tags
         ?>
-        <h3 style='margin: 0;'>Tags: </h3>
+        <h2 style='margin: 0;'>Tags: </h2>
         <p style='margin: 0;'>(Please separate tags using commas)</p>
         <?php
         $tags = $project->tags;
@@ -102,9 +115,9 @@
     //to give feedback as to why the project failed or to encourage the
     //owner to try again
     if ($owner) {
-        echo "<h2 id='post-title'>Post an update: </h2>";
+        echo "<hr><h2 id='post-title'>Post an update: </h2>";
     } else {
-        echo "<h2 id='post-title'>Post a comment: </h2>";
+        echo "<hr><h2 id='post-title'>Post a comment: </h2>";
     }
     ?>
     <form method="POST" id='post-form'>
@@ -158,7 +171,8 @@
                         </h4>
                         <p>"
                         . $update->comment . "
-                        </p>
+                        </p>"
+                        . Media::displayMedia($update->mediaNames) . "
                     </div>
                 ";
                 $posts[] = $html;
@@ -195,7 +209,7 @@
     function getTags($project) {
         $str = "";
         if ($project->tags) {
-            $str .= "<br /><h3 style='margin: 0'>Tags: </h3><p>";
+            $str .= "<br /><h2 style='margin: 0'>Tags: </h2><p>";
             $length = count($project->tags);
             for ($i = 0; $i < $length; $i++) {
                 $tag_name = $project->tags[$i];
