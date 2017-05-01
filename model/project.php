@@ -178,6 +178,25 @@
         }
 
         /**
+         * Gets the media associated with a project
+         */
+        public static function getMedia($pid) {
+            $db = DB::getInstance();
+            $q = "SELECT filename FROM Media JOIN Umedia USING(mid) WHERE uid IN ("
+                ."SELECT uid FROM ProjectUpdate WHERE pid=:p);";
+            $results = $db->runSelect($q, [':p' => $pid]);
+            if ($results) {
+                $filenames = [];
+                foreach ($results as $row) {
+                    $filenames[] = $row['filename'];
+                }
+                return $filenames;
+            } else {
+                return null;
+            }
+        }
+
+        /**
          * Get all projects by a certain owner.
          */
         public static function getProjectsByUsername($username) {

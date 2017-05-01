@@ -1,6 +1,12 @@
 input {
     background-color: white;
     border: 1px solid black;
+    margin-left: 0px;
+    padding-left: 0px;
+}
+
+input[type="file"] {
+    border: none;
 }
 
 input[type="range"] {

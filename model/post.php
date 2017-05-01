@@ -40,6 +40,24 @@
         }
 
         /**
+         * Gets the media associated with a specific update's uid
+         */
+        public static function getMedia($uid) {
+            $db = DB::getInstance();
+            $q = "SELECT filename FROM Media JOIN Umedia USING(mid) WHERE uid=:u;";
+            $results = $db->runSelect($q, [':u' => $uid]);
+            if ($results) {
+                $filenames = [];
+                foreach ($results as $row) {
+                    $filenames[] = $row['filename'];
+                }
+                return $filenames;
+            } else {
+                return null;
+            }
+        }
+
+        /**
          * Get all comments for a project ordered by date
          */
         public static function getComments($pid) {

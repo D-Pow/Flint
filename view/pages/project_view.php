@@ -107,7 +107,10 @@
         echo "<h2 id='post-title'>Post a comment: </h2>";
     }
     ?>
-    <input type='text' id='post-content'>
+    <form method="POST" id='post-form'>
+    <input type='text' id='post-content' name='content'>
+    <input type='file' name='upfiles[]' id='uploader' multiple>
+    </form>
     <br />
     <button type='button' id='post-button'
        onclick='post(

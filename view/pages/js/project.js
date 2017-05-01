@@ -82,16 +82,20 @@ function like(pid) {
  * Allows an owner to post an update or a user to post a comment
  */
 function post(pid, owner, username) {
+    var form = document.getElementById('post-form');
+    var d = new FormData(form); //includes post content and file uploads
+    //add pid and owner to form data
+    d.append('pid', pid);
+    d.append('owner', owner);
+    //get content for putting post on screen
     var content = document.getElementById('post-content').value;
 
     $.ajax({
         method: 'POST',
         url: '/Flint/model/project_post.php',
-        data: {
-            pid: pid,
-            owner: owner,
-            content: content
-        },
+        processData: false, // Don't process the file arrays into strings
+        contentType: false, // Set content type to false so doesn't send as normal form
+        data: d,
         success: function(result) {
             if (result == "Post successful") {
                 //make new post and insert it above all other posts
@@ -121,6 +125,11 @@ function post(pid, owner, username) {
                 var btn = document.getElementById('post-button');
                 input.parentNode.removeChild(input);
                 btn.parentNode.removeChild(btn);
+                //if owner, remove file uploading button
+                if (owner) {
+                    var fileInput = document.getElementById('uploader');
+                    fileInput.parentNode.removeChild(fileInput);
+                }
                 document.getElementById('post-thanks').innerHTML = "Thanks for posting";
             } else {
                 alert(result);
