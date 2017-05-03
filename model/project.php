@@ -342,6 +342,7 @@
          */
         public static function searchProjects($keyword) {
             $db = DB::getInstance();
+            //keyword is already lowercase
             $q = "SELECT * FROM Project WHERE lower(pname) LIKE :k OR "
                 ."lower(description) LIKE :k;";
             $results = $db->runSelect($q, [':k' => '%'.$keyword.'%']);

@@ -89,6 +89,9 @@
             $pid = intval($pid);  //only allow ints
             $project = Project::getProject($pid);
             $likes = Project::getLikes($pid);
+            //log project view
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/view_log.php');
+            ViewLog::logProjectView($_SESSION['username'], $pid);
             //get comments and updates for a project
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/media.php');
@@ -142,6 +145,10 @@
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             $tag_name = $_GET['tag'];
             $tag_name = htmlspecialchars($tag_name, ENT_QUOTES, 'UTF-8');
+            //log tag view
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/view_log.php');
+            ViewLog::logTagView($_SESSION['username'], $tag_name);
+            //get projects matching that tag
             $projects = Project::getProjectsByTagName($tag_name);
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/tag_view.php');
         }
@@ -153,9 +160,12 @@
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/post.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
             require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/user.php');
+            require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/view_log.php');
             $keyword = $_GET['q'];
             $keyword = htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8');
-            $keyword = strtolower($keyword);
+            $keyword = strtolower($keyword); //make lowercase for ease of searching
+            //log that the user searched for that keyword
+            ViewLog::logSearch($_SESSION['username'], $keyword);
             $projects = Project::searchProjects($keyword);
             $users = User::searchUsers($keyword);
             $tags = Project::searchTags($keyword);
