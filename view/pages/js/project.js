@@ -79,6 +79,31 @@ function like(pid) {
 }
 
 /**
+ * Allows an owner to mark that a project has been completed
+ */
+function finishProject(pid) {
+    //ensure user really wants to complete the project
+    if (!confirm("Are you sure you want to mark the project as completed? \n" +
+        "This action cannot be undone.")) {
+        return
+    }
+    //mark project as completed
+    var completed = true;
+    $.ajax({
+        method: 'POST',
+        url: '/Flint/model/project_finish.php',
+        data: {pid: pid},
+        success: function(result) {
+            if (result == 'success') {
+                window.location.reload(true); //force reload from server
+            } else {
+                alert(result);
+            }
+        }
+    });
+}
+
+/**
  * Allows an owner to post an update or a user to post a comment
  */
 function post(pid, owner, username) {

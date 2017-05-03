@@ -21,13 +21,15 @@
             echo $project->username; ?>'><?php echo $project->username; ?></a>
     
     <hr>
-    <h2>Posted:</h2>
-    <p><?php echo $project->post_time; ?></p>
+    <h2>Posted on:</h2>
+    <h3><?php echo date('h:i A, m-d-Y', strtotime($project->post_time)); ?></h3>
+    <hr>
     
     <?php if ($project->proj_completed) {
-            echo "<h2>Project completed: ".$project->completion_time."</h2>";
+            echo "<h2>Project completed on: </h2>"
+            ."<h3>".date('h:i A, m-d-Y', strtotime($project->completion_time))
+            ."</h3>";
         }?>
-    <br />
     
     <hr>
     <h2>Description:</h2>
@@ -45,7 +47,7 @@
     
     <hr>
     <h2>Funding:</h2>
-    <p>Min: <?php echo $project->minfunds; ?><input id='donation-scale' type='range'
+    <p>Min: <?php echo $project->minfunds; ?>  <input id='donation-scale' type='range'
             min='<?php echo $project->minfunds; ?>'
             max='<?php echo $project->maxfunds; ?>'
             value='<?php echo $totalFunds ? $totalFunds : 0; ?>' disabled>
@@ -65,9 +67,20 @@
     if ($project->camp_finished) {
         echo "<hr><h2>The campaign was "
             .($project->camp_success ? "" : "not ")."a success.</h2>";
+        if (!($project->proj_completed) && $owner) {
+            //if project isn't completed yet, give option to complete it
+            ?>
+            <br />
+            <h2>Is the project completed?</h2>
+            <button type='button' id='finish-project'
+                    onclick='finishProject(<?php echo $project->pid; ?>)'>
+                    Finish Project</button>
+            <br /><br />
+            <hr>
+            <?php
+        }
     } else if ($project->username != $_SESSION['username']) {
         //allow non-owners to donate
-
         //load donation options
         ?>
         <hr>
@@ -91,7 +104,7 @@
         <?php
     }
     //output how many people like the project
-    echo "<p id='likes'>".count($likes)." likes</p>";
+    echo "<p id='likes'>".count($likes)." likes</p><br /><br />";
     
     if ($owner) {
         //allow owner to change project tags
@@ -106,7 +119,7 @@
         }
         echo "<input type='text' id='tags-input' value='{$str}'><br />";
         echo "<button id='save' onclick='saveChanges("
-                .$project->pid.")'>Save Changes</button>";
+                .$project->pid.")'>Save Changes</button><br /><br />";
     } else {
         echo getTags($project);
     }

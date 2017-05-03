@@ -201,7 +201,7 @@
          */
         public static function getProjectsByUsername($username) {
             $db = DB::getInstance();
-            $q = "SELECT * FROM Project WHERE username=:u;";
+            $q = "SELECT * FROM Project WHERE username=:u ORDER BY post_time DESC;";
             $entries = array(":u" => $username);
             $results = $db->runSelect($q, $entries);
             if ($results) {

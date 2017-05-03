@@ -11,6 +11,7 @@ input[type="file"] {
 
 input[type="range"] {
     padding: 0;
+    margin-left: 5px;
 }
 
 textarea {
