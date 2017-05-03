@@ -29,9 +29,9 @@
             echo "<h2>Project completed on: </h2>"
             ."<h3>".date('h:i A, m-d-Y', strtotime($project->completion_time))
             ."</h3>";
+            echo "<hr>";
         }?>
     
-    <hr>
     <h2>Description:</h2>
     <?php
         //if owner, allow them to change description
