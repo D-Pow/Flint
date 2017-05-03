@@ -45,8 +45,11 @@ body {
     position: fixed;
 }
 
-#nav li {
+#nav ul {
     margin: 0px;
+}
+
+#nav li {
     display: inline;
 }
 
@@ -54,7 +57,7 @@ body {
     /*button links*/
     color: rgb(211, 230, 251);
     background: rgb(58, 198, 66);
-    margin: 20px;
+    margin: 5px;
     padding: 10px;
     text-decoration: none;
     border: 2px solid black;
@@ -137,6 +140,7 @@ body {
     width: 350px;
     margin: auto;
     background-color: white;
+    border: none;
 }
 
 input {
