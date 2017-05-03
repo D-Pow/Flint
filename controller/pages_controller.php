@@ -71,9 +71,11 @@
             $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); //sanitize
             $user = User::getUser($username);
             if ($user) {
-                //get liked projects
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
-                $projects = Project::getLikedProjectsByPostTime($username);
+                //get owned projects
+                $ownedProjects = Project::getProjectsByUsername($username);
+                //get liked projects
+                $likedProjects = Project::getLikedProjectsByPostTime($username);
                 //get recently viewed projects and tags
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/view_log.php');
                 $viewedProjects = ViewLog::getRecentProjectViews($username);

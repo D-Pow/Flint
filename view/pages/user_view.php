@@ -2,7 +2,7 @@
 
 <div id="container">
     <h1><?php echo $user->username; ?></h1>
-    <br />
+    <hr />
     <h3>Name:</h3>
     <p><?php echo $user->uname; ?></p>
     <br />
@@ -30,14 +30,18 @@
             <script src='/Flint/view/pages/js/user.js'></script>
             <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
             </script>
+            <br />
+            <br />
             <?php
         }
     ?>
+    <br />
 <?php
-    if ($projects) {
-        echo "<h2>Liked Projects</h2>";
+    //display projects owned by this user
+    if ($ownedProjects) {
+        echo "<h2>Projects Posted by ".$username."</h2>";
         echo "<ul>";
-        foreach($projects as $project) {
+        foreach($ownedProjects as $project) {
             $html = "<a class='entry-title' 
                         href='/Flint/?controller=pages&action=project&pid="
                         . $project->pid
@@ -49,8 +53,27 @@
         }
         echo "</ul>";
     }
+
+    //display liked projects
+    if ($likedProjects) {
+        echo "<h2>Projects that ".$username." likes</h2>";
+        echo "<ul>";
+        foreach($likedProjects as $project) {
+            $html = "<a class='entry-title' 
+                        href='/Flint/?controller=pages&action=project&pid="
+                        . $project->pid
+                        . "'>"
+                        . $project->pname ."
+                    </a>
+            ";
+            echo "<li>" . $html . "</li>";
+        }
+        echo "</ul>";
+    }
+
+    //display recent projects and tags viewed by this user
     if ($viewedProjects) {
-        echo "<h2>Recently Viewed Projects</h2>";
+        echo "<h2>Projects recently viewed by ".$username."</h2>";
         echo "<ul>";
         foreach(array_keys($viewedProjects) as $pname) {
             $html = "<a class='entry-title' 
@@ -65,7 +88,7 @@
         echo "</ul>";
     }
     if ($viewedTags) {
-        echo "<h2>Recently Viewed Tags</h2>";
+        echo "<h2>Tags recently viewed by ".$username."</h2>";
         echo "<ul>";
         foreach($viewedTags as $tag_name) {
             $html = "<a class='entry-title' 
