@@ -45,8 +45,8 @@
          */
         public static function getRecentSearches($username) {
             $db = DB::getInstance();
-            $q = "WITH t AS (SELECT * FROM Searches WHERE username=:u ORDER BY stime DESC) "
-                ."SELECT DISTINCT(search) AS keyword FROM t;";
+            $q = "SELECT search, MAX(stime) FROM Searches WHERE username=:u "
+                ."GROUP BY search ORDER BY stime DESC;";
             $results = $db->runSelect($q, [':u' => $username]);
             if ($results) {
                 $searches = [];
@@ -64,14 +64,15 @@
          */
         public static function getRecentProjectViews($username) {
             $db = DB::getInstance();
-            $q = "WITH t AS (SELECT pv.username,pname,pid FROM ProjectViews AS pv JOIN "
-                ."Project USING(pid) WHERE pv.username=:u ORDER BY vtime DESC) "
-                ."SELECT DISTINCT(pname) AS pname,pid FROM t;";
+            $q = "SELECT pname, pid, MAX(vtime) FROM ProjectViews AS pv JOIN "
+                ."Project USING(pid) WHERE pv.username=:u GROUP BY pid ORDER "
+                ."BY vtime DESC;";
             $results = $db->runSelect($q, [':u' => $username]);
             if ($results) {
                 $projects = [];
                 foreach ($results as $row) {
-                    $projects[$row['pname']] = $row['pid'];
+                    //put in an array to preserve the order of most-recent view
+                    $projects[] = ['pname' => $row['pname'], 'pid' => $row['pid']];
                 }
                 return $projects;
             } else {
@@ -84,14 +85,13 @@
          */
         public static function getRecentTagViews($username) {
             $db = DB::getInstance();
-            $q = "WITH t AS (SELECT tid, name FROM TagViews JOIN Tags USING(tid) "
-                ."WHERE username=:u ORDER BY vtime DESC) SELECT DISTINCT(name) "
-                ."AS tag_name FROM t;";
+            $q = "SELECT tid, name, MAX(vtime) FROM TagViews JOIN Tags USING(tid) "
+                ."WHERE username=:u GROUP BY tid, name ORDER BY vtime DESC;";
             $results = $db->runSelect($q, [':u' => $username]);
             if ($results) {
                 $tags = [];
                 foreach ($results as $row) {
-                    $tags[] = $row['tag_name'];
+                    $tags[] = $row['name'];
                 }
                 return $tags;
             } else {

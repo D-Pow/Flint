@@ -75,10 +75,12 @@
     if ($viewedProjects) {
         echo "<h2>Projects recently viewed by ".$username."</h2>";
         echo "<ul>";
-        foreach(array_keys($viewedProjects) as $pname) {
+        foreach($viewedProjects as $projArray) {
+            $pname = $projArray['pname'];
+            $pid = $projArray['pid'];
             $html = "<a class='entry-title' 
                         href='/Flint/?controller=pages&action=project&pid="
-                        . $viewedProjects[$pname]
+                        . $pid
                         . "'>"
                         . $pname ."
                     </a>
