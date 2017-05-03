@@ -49,15 +49,35 @@
         }
         echo "</ul>";
     }
-        /*
-        public $username;
-        public $uname;
-        public $email;
-        public $str_addr;
-        public $ucity;
-        public $ustate;
-        public $interests;
-        public $ccn;
-        */
+    if ($viewedProjects) {
+        echo "<h2>Recently Viewed Projects</h2>";
+        echo "<ul>";
+        foreach(array_keys($viewedProjects) as $pname) {
+            $html = "<a class='entry-title' 
+                        href='/Flint/?controller=pages&action=project&pid="
+                        . $viewedProjects[$pname]
+                        . "'>"
+                        . $pname ."
+                    </a>
+            ";
+            echo "<li>" . $html . "</li>";
+        }
+        echo "</ul>";
+    }
+    if ($viewedTags) {
+        echo "<h2>Recently Viewed Tags</h2>";
+        echo "<ul>";
+        foreach($viewedTags as $tag_name) {
+            $html = "<a class='entry-title' 
+                        href='/Flint/?controller=pages&action=tag&tag="
+                        . $tag_name
+                        . "'>"
+                        . $tag_name ."
+                    </a>
+            ";
+            echo "<li>" . $html . "</li>";
+        }
+        echo "</ul>";
+    }
 ?>
 </div>

@@ -39,5 +39,65 @@
                 return false;
             }            
         }
+
+        /**
+         * Gets all recent searches for a given user
+         */
+        public static function getRecentSearches($username) {
+            $db = DB::getInstance();
+            $q = "WITH t AS (SELECT * FROM Searches WHERE username=:u ORDER BY stime DESC) "
+                ."SELECT DISTINCT(search) AS keyword FROM t;";
+            $results = $db->runSelect($q, [':u' => $username]);
+            if ($results) {
+                $searches = [];
+                foreach ($results as $row) {
+                    $searches[] = $row['keyword'];
+                }
+                return $searches;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Gets all recent project views for a given user
+         */
+        public static function getRecentProjectViews($username) {
+            $db = DB::getInstance();
+            $q = "WITH t AS (SELECT pv.username,pname,pid FROM ProjectViews AS pv JOIN "
+                ."Project USING(pid) WHERE pv.username=:u ORDER BY vtime DESC) "
+                ."SELECT DISTINCT(pname) AS pname,pid FROM t;";
+            $results = $db->runSelect($q, [':u' => $username]);
+            if ($results) {
+                $projects = [];
+                foreach ($results as $row) {
+                    $projects[$row['pname']] = $row['pid'];
+                }
+                return $projects;
+            } else {
+                return null;
+            }
+        }
+
+        /**
+         * Gets all recent tag views for a given user
+         */
+        public static function getRecentTagViews($username) {
+            $db = DB::getInstance();
+            $q = "WITH t AS (SELECT tid, name FROM TagViews JOIN Tags USING(tid) "
+                ."WHERE username=:u ORDER BY vtime DESC) SELECT DISTINCT(name) "
+                ."AS tag_name FROM t;";
+            $results = $db->runSelect($q, [':u' => $username]);
+            if ($results) {
+                $tags = [];
+                foreach ($results as $row) {
+                    $tags[] = $row['tag_name'];
+                }
+                return $tags;
+            } else {
+                return null;
+            }
+        }
+
     }
 ?>
