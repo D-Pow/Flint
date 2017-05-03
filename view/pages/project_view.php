@@ -122,7 +122,11 @@
     ?>
     <form method="POST" id='post-form'>
     <input type='text' id='post-content' name='content'>
-    <input type='file' name='upfiles[]' id='uploader' multiple>
+    <?php
+        if ($owner) {
+            echo "<input type='file' name='upfiles[]' id='uploader' multiple>";
+        }
+    ?>
     </form>
     <br />
     <button type='button' id='post-button'

@@ -28,23 +28,43 @@
     $e = [':u' => $username, ':p' => $pid, ':c' => $content, ':d' => $datetime];
     $success1 = $db->runUpdate($q,$e);
 
-    //posting the update was a success, now save the media
-    require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/media.php');
-    //get uid of current post
-    $e = [':u' => $username, ':p' => $pid, ':d' => $datetime];
-    $results = $db->runSelect("SELECT uid FROM ProjectUpdate WHERE ctime=:d AND "
-                             ."username=:u AND pid=:p;", $e);
-    if (!$results) {
-        reply('Could not upload files');
+    $success2 = null;
+    if (!$owner) {
+        $success2 = true;
+    } else {
+        //check if owner uploaded files
+        $upfiles = $_FILES['upfiles'];
+        $fileCount = count($upfiles['name']);
+        //if files were uploaded
+        if (!($fileCount == 1 && $upfiles['name'][0] == '')) {
+            //upload the media
+            $success2 = postMedia($username, $pid, $datetime, $db);
+        } else {
+            //otherwise, continue
+            $success2 = true;
+        }
     }
-    $pid = $results[0]['uid'];
-    $success2 = uploadMedia($pid);
 
     //reply to client
     if ($success1 && $success2) {
         reply("Post successful");
     } else {
         reply("Something went wrong");
+    }
+
+    function postMedia($username, $pid, $datetime, $db) {
+        //posting the update was a success, now save the media
+        require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/media.php');
+        //get uid of current post
+        $e = [':u' => $username, ':p' => $pid, ':d' => $datetime];
+        $results = $db->runSelect("SELECT uid FROM ProjectUpdate WHERE ctime=:d AND "
+                                 ."username=:u AND pid=:p;", $e);
+        if (!$results) {
+            reply('Could not upload files');
+        }
+        $pid = $results[0]['uid'];
+        $success = uploadMedia($pid); //in media.php
+        return $success;
     }
 
     function reply($message) {

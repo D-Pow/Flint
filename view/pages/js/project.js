@@ -83,7 +83,7 @@ function like(pid) {
  */
 function post(pid, owner, username) {
     var form = document.getElementById('post-form');
-    var d = new FormData(form); //includes post content and file uploads
+    var d = new FormData(form); //includes post content and file uploads (if owner)
     //add pid and owner to form data
     d.append('pid', pid);
     d.append('owner', owner);
