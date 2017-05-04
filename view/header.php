@@ -28,9 +28,24 @@
 <div id='search-content'>
     <input id='search-bar' type='text' placeholder='Search'
             onkeydown="search(event)">
-    <button type='button' id='search-btn' 
-        onclick="search(13)">Search</button>
+    <div id='prev-search-arrow'></div>
+    <ul id='previous-searches'>
+        <?php
+        require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/view_log.php');
+        $searches = ViewLog::getRecentSearches($_SESSION['username']);
+        foreach ($searches as $search) {
+            echo "<li class='search-item'>";
+            echo "<a href='/Flint/?controller=pages&action=search&q="
+                .$search."'>".$search."</a>";
+            echo "</li>";
+        }
+        ?>
+    </ul>
+
     <script>
+        /**
+         * Searches the keyword once the user presses `Enter`
+         */
         function search(e) {
             var code;
             if (e != 13) {

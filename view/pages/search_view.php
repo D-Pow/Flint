@@ -1,3 +1,8 @@
+<!--fill search bar with what was searched-->
+<script>
+    document.getElementById('search-bar').value = '<?php echo $keyword; ?>';
+</script>
+
 <?php
     
     //get all results

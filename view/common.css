@@ -134,14 +134,88 @@ body {
     display: block;
     margin: 20px auto;
     text-align: center;
+    width: 350px;
 }
 
 #search-bar {
-    width: 350px;
+    /* set search icon */
+    background-image: url("/Flint/view/resources/search-icon.png");
+    background-position: 5px 6px;
+    background-repeat: no-repeat;
+    background-size: 15px 15px;
+    padding-left: 25px;       /* move actual search to the side of the icon */
+    width: inherit;
     margin: auto;
     background-color: white;
     border: none;
 }
+
+#previous-searches {
+    visibility: hidden;         /* start out hidden */
+    opacity: 0;
+    width: inherit;             /* same width as search bar */
+    list-style-type: none;      /* no bullets */
+    background-color: #f6f6f6;
+    margin: 0;
+    margin-left: 30px;         /* left to account for search icon */
+    padding: 0px;
+    text-align: center;
+    transition: all 0.4s;       /* for opacity */
+    border-radius: 5px;         /* make it look nice */
+    overflow: hidden;           /* hide the part outside the radius */
+}
+
+#search-bar:focus ~ #previous-searches {
+    /* when search bar is focused, change previous-searches */
+    opacity: 1;
+    visibility: visible;
+}
+
+.search-item {
+    width: inherit;
+    display: block;
+    margin: -1px;               /* get rid of double borders */
+    padding: 0px;               /* make borders go all the way to left/right */
+    border-top: 1px solid black;/* just the top */
+}
+
+.search-item > a {
+    display: block;             /* make link take up entire li */
+    text-decoration: none;
+    color: rgb(0,152,5);
+    margin: auto;
+    padding: 10px 0px;          /* add space between links */
+}
+
+.search-item > a:hover {
+    background-color: rgb(197,236,223);
+}
+
+#prev-search-arrow {
+    /* display connecting arrow to drop-down menu */
+    visibility: 0;
+    opacity: 0;
+    transition: all 0.4s;       /* same as search items */
+    margin: 0 auto;
+    /* make position relative so it can be moved to center of previous-searches,
+       not the search bar itself */
+    position: relative;
+    left: 30px;
+    /* Make transparent block with left/right borders to cut the bottom 
+       border into triangle shape */
+    width: 0;
+    height: 0;
+    border-left: 10px solid transparent;
+    border-right: 10px solid transparent;
+    border-bottom: 10px solid #f6f6f6;
+}
+
+#search-bar:focus ~ #prev-search-arrow {
+    /* when search bar is focused, change previous-searches */
+    opacity: 1;
+    visibility: visible;
+}
+
 
 input {
     font-family: cursive;

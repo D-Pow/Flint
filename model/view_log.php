@@ -51,7 +51,7 @@
             if ($results) {
                 $searches = [];
                 foreach ($results as $row) {
-                    $searches[] = $row['keyword'];
+                    $searches[] = $row['search'];
                 }
                 return $searches;
             } else {
