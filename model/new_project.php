@@ -81,6 +81,10 @@
      * $tags is the array of user-inputted tags
      */
     function insertAndConnectTags($db, $tags, $pid) {
+        if (!$tags || trim($tags) == '') {
+            //don't insert blank tags
+            return true;
+        }
         $q = "SELECT name FROM Tags;";
         $results = $db->runSelect($q, null);
         $success = true;  //keep track of all queries to ensure success

@@ -171,9 +171,13 @@
             $keyword = $_GET['q'];
             $keyword = htmlspecialchars($keyword, ENT_QUOTES, 'UTF-8');
             $keyword = strtolower($keyword); //make lowercase for ease of searching
+            $keyword = trim($keyword); //remove whitespace
             //log that the user searched for that keyword
-            ViewLog::logSearch($_SESSION['username'], $keyword);
-            updateSearchList();
+            if ($keyword != '') {
+                //make sure something was searched before logging it
+                ViewLog::logSearch($_SESSION['username'], $keyword);
+                updateSearchList();
+            }
             $projects = Project::searchProjects($keyword);
             $users = User::searchUsers($keyword);
             $tags = Project::searchTags($keyword);
