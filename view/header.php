@@ -27,7 +27,7 @@
 </ul>
 <div id='search-content'>
     <input id='search-bar' type='text' placeholder='Search'
-            onkeydown="search(event)">
+            onkeydown="search(event)" onkeyup="filterPrevSearches()">
     <div id='prev-search-arrow'></div>
     <ul id='previous-searches'>
         <?php
@@ -54,11 +54,64 @@
             if (e == 13 || code == 13) {
                 window.location.href=
                     "/Flint/?controller=pages&action=search&q=" + 
-                    document.getElementById("search-bar").value;
+                    encodeURIComponent(  //encodes input for safe url handling
+                        document.getElementById("search-bar").value
+                    );
                 e.stopPropagation();
             }
             return;
         }
+
+        /**
+         * Reduces the previous searches by what is typed in the bar
+         */
+        function filterPrevSearches() {
+            var input = document.getElementById('search-bar').value;
+            input = input.toLowerCase();
+            var li = document.getElementsByClassName('search-item');
+            for (var i = 0; i < li.length; i++) {
+                var a = li[i].getElementsByTagName('a')[0];
+                var item = a.innerHTML.toLowerCase();
+                //indexOf searches for full `filter` string in the `input`
+                //-1 if string not present
+                if (item.indexOf(input) >= 0) {
+                    li[i].style.display = '';
+                } else {
+                    //display makes the element not take up space
+                    li[i].style.display = 'none';
+                }
+            }
+        }
     </script>
 </div>
 </div>
+
+<?php
+    function updateSearchList() {
+        ?>
+        <script>
+            //delete all old search items
+            var ul = document.getElementById('previous-searches');
+            while (ul.hasChildNodes()) {
+                ul.removeChild(ul.lastChild);
+            }
+        </script>
+        <?php
+        //output new search items
+        $searches = ViewLog::getRecentSearches($_SESSION['username']);
+        foreach ($searches as $search) {
+            ?>
+            <script>
+            var li = document.createElement('li');
+            li.className = 'search-item';
+            var item = '<?php echo $search; ?>';
+            var a = document.createElement('a');
+            a.href = '/Flint/?controller=pages&action=search&q=' + item;
+            a.innerHTML = item;
+            li.appendChild(a);
+            ul.appendChild(li);
+            </script>
+            <?php
+        }
+    }
+?>

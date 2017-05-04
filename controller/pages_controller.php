@@ -173,6 +173,7 @@
             $keyword = strtolower($keyword); //make lowercase for ease of searching
             //log that the user searched for that keyword
             ViewLog::logSearch($_SESSION['username'], $keyword);
+            updateSearchList();
             $projects = Project::searchProjects($keyword);
             $users = User::searchUsers($keyword);
             $tags = Project::searchTags($keyword);
