@@ -1,30 +1,31 @@
 <!--Header content-->
 <div id='header'>
+<div id='nav'>
 <h2 id='user-title'>Welcome <?php echo $_SESSION['username']; ?>!</h2>
-<br /><br />
-<ul id='nav'>
+<ul>
     <li>
-        <a class='button' id='home'
+        <a id='home'
             href='/Flint/?controller=pages&action=home'>Home</a>
     </li>
     <li>
-        <a class='button' id='posted-projects'
+        <a id='posted-projects'
             href='/Flint/?controller=pages&action=posted_projects'>My Projects</a>
     </li>
     <li>
-        <a class='button' id='new-project'
+        <a id='new-project'
             href='/Flint/?controller=pages&action=new'>New Project</a>
     </li>
     <li>
-        <a class='button' id='edit-profile'
+        <a id='edit-profile'
             href='/Flint/?controller=pages&action=user&user=<?php 
             echo $_SESSION['username']; ?>'>Profile</a>
     </li>
     <li>
-        <a class='button' id='logout'
+        <a id='logout'
             href='/Flint/?controller=pages&action=logout'>Logout</a>
     </li>
 </ul>
+</div>
 <div id='search-content'>
     <input id='search-bar' type='text' placeholder='Search'
             onkeydown="search(event)" onkeyup="filterPrevSearches()">
@@ -72,6 +73,7 @@
             var input = document.getElementById('search-bar').value;
             input = input.toLowerCase();
             var li = document.getElementsByClassName('search-item');
+            var itemExists = false;
             for (var i = 0; i < li.length; i++) {
                 var a = li[i].getElementsByTagName('a')[0];
                 var item = a.innerHTML.toLowerCase();
@@ -79,10 +81,17 @@
                 //-1 if string not present
                 if (item.indexOf(input) >= 0) {
                     li[i].style.display = '';
+                    itemExists = true;
                 } else {
                     //display makes the element not take up space
                     li[i].style.display = 'none';
                 }
+            }
+            var arrow = document.getElementById('prev-search-arrow');
+            if (!itemExists) {
+                arrow.style.display = 'none';
+            } else {
+                arrow.style.display = '';
             }
         }
     </script>

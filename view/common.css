@@ -15,7 +15,7 @@ body {
     margin: 0;
     position: fixed;
     width: 100%;
-    height: 90px;
+    height: 80px;
     top: 0;
 }
 
@@ -33,24 +33,58 @@ body {
 
 #user-title {
     margin: 0;
-    position: fixed;
-    right: 20px;
+    padding: 20px;
+    height: 40px;    /* 80px header - 20px top - 20px bottom */
+    background-color: #f6f6f6;
 }
 
 #nav {
+    float: right;
     display: block;
-    list-style-type: none;
-    margin-top: 10px;
-    right: 20px;
-    position: fixed;
+    margin: 0;
+    margin-right: 0;
+    padding: 0px;
+    text-align: center;
+    overflow: hidden;
+}
+
+#nav:hover {
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
 }
 
 #nav ul {
-    margin: 0px;
+    visibility: hidden;
+    opacity: 0;
+    list-style-type: none;      /* no bullets */
+    margin: 0;
+    padding: 0;
+    background-color: rgb(0, 188, 179);
+    transition: all 0.2s;
+}
+
+#nav:hover ul {
+    visibility: visible;
+    opacity: 1;
 }
 
 #nav li {
-    display: inline;
+    margin: 0;
+    padding: 0;
+}
+
+#nav li a {
+    display: block;
+    padding: 10px;
+    margin: auto;
+    text-decoration: none;
+    color: black;
+    background: rgb(58, 198, 66);
+}
+
+#nav li a:hover {
+    color: white;
+    background: rgb(0, 123, 117);
 }
 
 .button {
@@ -162,7 +196,7 @@ body {
 }
 
 #previous-searches {
-    display: none;              /* start out hidden */
+    visibility: hidden;         /* start out hidden */
     opacity: 0;
     width: inherit;             /* same width as search bar */
     list-style-type: none;      /* no bullets */
@@ -179,13 +213,13 @@ body {
 #search-bar:focus ~ #previous-searches {
     /* when search bar is focused, change previous-searches */
     opacity: 1;
-    display: block;
+    visibility: visible;
 }
 
 #previous-searches:hover {
     /* when search bar is focused, change previous-searches */
     opacity: 1;
-    display: block;
+    visibility: visible;
 }
 
 .search-item {
@@ -210,7 +244,7 @@ body {
 
 #prev-search-arrow {
     /* display connecting arrow to drop-down menu */
-    display: none;
+    visibility: hidden;
     opacity: 0;
     transition: all 0.4s;       /* same as search items */
     margin: 0 auto;
@@ -230,7 +264,7 @@ body {
 #search-bar:focus ~ #prev-search-arrow {
     /* when search bar is focused, change previous-searches */
     opacity: 1;
-    display: block;
+    visibility: visible;
 }
 
 
