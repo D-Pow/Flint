@@ -37,7 +37,7 @@
             if ($results) {
                 return $this->resultsToArray($results);
             } else {
-                return null;
+                return [];
             }
         }
 

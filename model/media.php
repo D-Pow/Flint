@@ -115,7 +115,8 @@ class Media {
             $type = explode('/', $mime)[0];   //only the type
             if ($type == 'image') {
                 $media['images'][] = $file;
-            } else if ($mime == 'application/octet-stream') {
+            } else if ($mime == 'application/octet-stream' || 
+                    $type == 'audio') {
                 $media['sounds'][] = $file;
             } else if ($type == 'video') {
                 $media['videos'][] = $file;
