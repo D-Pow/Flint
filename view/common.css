@@ -151,24 +151,24 @@ body {
     background-color: white;
     border: none;
     position: relative;
+    border-radius: 10px;
     transition: all 0.4s ease-in-out;
 }
 
 #search-bar:focus {
     left: 0px;
     width: inherit;
+    outline: none;
 }
 
 #previous-searches {
-    visibility: hidden;         /* start out hidden */
+    display: none;              /* start out hidden */
     opacity: 0;
-    height: 0px;                /* prevent searches from blocking 
-                                   the page when inactive */
     width: inherit;             /* same width as search bar */
     list-style-type: none;      /* no bullets */
     background-color: #f6f6f6;
     margin: 0;
-    margin-left: 30px;         /* left to account for search icon */
+    margin-left: 30px;          /* left to account for search icon */
     padding: 0px;
     text-align: center;
     transition: all 0.4s;       /* for opacity */
@@ -179,8 +179,13 @@ body {
 #search-bar:focus ~ #previous-searches {
     /* when search bar is focused, change previous-searches */
     opacity: 1;
-    visibility: visible;
-    height: auto;
+    display: block;
+}
+
+#previous-searches:hover {
+    /* when search bar is focused, change previous-searches */
+    opacity: 1;
+    display: block;
 }
 
 .search-item {
@@ -205,9 +210,9 @@ body {
 
 #prev-search-arrow {
     /* display connecting arrow to drop-down menu */
-    visibility: 0;
+    display: none;
     opacity: 0;
-    transition: all 0.4s;       /* same as search items */
+    transition: all 0.3s;       /* same as search items */
     margin: 0 auto;
     /* make position relative so it can be moved to center of previous-searches,
        not the search bar itself */
@@ -225,7 +230,7 @@ body {
 #search-bar:focus ~ #prev-search-arrow {
     /* when search bar is focused, change previous-searches */
     opacity: 1;
-    visibility: visible;
+    display: block;
 }
 
 
