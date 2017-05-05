@@ -39,7 +39,7 @@
         ?>
         <h2 style='text-align: center;'>You haven't posted any projects yet!</h2>
         <h3 style='text-align: center;'>
-            <a href='/Flint/?controller=pages&action=new'>Create</a> one now!</h3>
+            <a class='button' href='/Flint/?controller=pages&action=new'>Create one now!</a></h3>
         <?php
     }
 
