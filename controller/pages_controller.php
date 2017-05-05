@@ -112,6 +112,7 @@
             $updates = Post::getUpdates($pid);
             $comments = Post::getComments($pid);
             if ($project) {
+                $rating = Project::getAverageRating($pid);
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
                 $totalFunds = Donation::getTotalDonations($pid);
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/view/pages/project_view.php');

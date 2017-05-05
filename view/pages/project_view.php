@@ -27,8 +27,12 @@
     
     <?php if ($project->proj_completed) {
             echo "<h2>Project completed on: </h2>"
-            ."<h3>".date('h:i A, m-d-Y', strtotime($project->completion_time))
-            ."</h3>";
+                ."<h3>".date('h:i A, m-d-Y', strtotime($project->completion_time))
+                ."</h3>";
+            if ($rating) {
+                echo "<h2>Average rating: </h2>"
+                    ."<h4>".$rating."</h4>";
+            }
             echo "<hr>";
         }?>
     

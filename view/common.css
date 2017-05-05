@@ -10,16 +10,6 @@ body {
     background-color: rgb(134, 234, 204);
 }
 
-#header {
-    background: rgb(0, 188, 179);
-    margin: 0;
-    position: fixed;
-    width: 100%;
-    height: 80px;
-    top: 0;
-    z-index: 999999;        /* put on top of all other elements */
-}
-
 .hidden {
     /* Important makes this display override any other display values */
     display: none !important;
@@ -32,65 +22,7 @@ body {
     color: rgb(148,113,113);
 }
 
-#user-title {
-    margin: 0;
-    padding: 20px;
-    height: 40px;    /* 80px header - 20px top - 20px bottom */
-    background-color: #f6f6f6;
-}
-
-#nav {
-    float: right;
-    display: block;
-    margin: 0;
-    margin-right: 0;
-    padding: 0px;
-    text-align: center;
-    overflow: hidden;
-    border-bottom-left-radius: 10px;
-    border-bottom-right-radius: 10px;
-}
-
-#nav ul {
-    visibility: hidden;
-    opacity: 0;
-    list-style-type: none;      /* no bullets */
-    margin: 0;
-    padding: 0;
-    background-color: rgb(0, 188, 179);
-    transition: all 0.2s;
-}
-
-#user-title:hover ~ ul {
-    visibility: visible;
-    opacity: 1;
-}
-
-#nav ul:hover {
-    visibility: visible;
-    opacity: 1;
-}
-
-#nav li {
-    margin: 0;
-    padding: 0;
-}
-
-#nav li a {
-    display: block;
-    padding: 10px;
-    text-decoration: none;
-    color: black;
-    background: rgb(58, 198, 66);
-}
-
-#nav li a:hover {
-    color: white;
-    background: rgb(0, 123, 117);
-}
-
 button {
-    /*button links*/
     color: black;
     background: rgb(58, 198, 66);
     margin: 5px;
@@ -104,6 +36,25 @@ button:focus {
 }
 
 button:hover {
+    color: white;
+    background: rgb(0, 123, 117);
+}
+
+.button {
+    /*button links*/
+    color: black;
+    background: rgb(58, 198, 66);
+    margin: 5px;
+    padding: 10px;
+    text-decoration: none;
+    border: 2px solid black;
+}
+
+.button:focus {
+    outline: none;
+}
+
+.button:hover {
     color: white;
     background: rgb(0, 123, 117);
 }
@@ -167,6 +118,73 @@ button:hover {
     max-width: 350px;
 }
 
+#header {
+    background: rgb(0, 188, 179);
+    margin: 0;
+    position: fixed;
+    width: 100%;
+    height: 80px;
+    top: 0;
+    z-index: 999999;        /* put on top of all other elements */
+}
+
+#user-title {
+    margin: 0;
+    padding: 20px;
+    height: 40px;    /* 80px header - 20px top - 20px bottom */
+    background-color: #f6f6f6;
+}
+
+#nav {
+    float: right;
+    display: block;
+    margin: 0;
+    margin-right: 0;
+    padding: 0px;
+    text-align: center;
+    overflow: hidden;
+    border-bottom-left-radius: 10px;
+    border-bottom-right-radius: 10px;
+}
+
+#nav ul {
+    visibility: hidden;
+    opacity: 0;
+    list-style-type: none;      /* no bullets */
+    margin: 0;
+    padding: 0;
+    background-color: rgb(0, 188, 179);
+    transition: all 0.2s;
+}
+
+#user-title:hover ~ ul {
+    visibility: visible;
+    opacity: 1;
+}
+
+#nav ul:hover {
+    visibility: visible;
+    opacity: 1;
+}
+
+#nav li {
+    margin: 0;
+    padding: 0;
+}
+
+#nav li a {
+    display: block;
+    padding: 10px;
+    text-decoration: none;
+    color: black;
+    background: rgb(58, 198, 66);
+}
+
+#nav li a:hover {
+    color: white;
+    background: rgb(0, 123, 117);
+}
+
 #search-content {
     display: block;
     margin: 20px auto;
@@ -194,14 +212,14 @@ button:hover {
 
 #search-bar:focus {
     left: 0px;
-    width: inherit;
+    width: inherit;             /* grow width of search bar on focus */
     outline: none;
 }
 
 #previous-searches {
     visibility: hidden;         /* start out hidden */
     opacity: 0;
-    height: 0;
+    height: 0;                  /* prevent covering the underlying page */
     width: inherit;             /* same width as search bar */
     list-style-type: none;      /* no bullets */
     background-color: #f6f6f6;
@@ -215,14 +233,12 @@ button:hover {
 }
 
 #search-bar:focus ~ #previous-searches {
-    /* when search bar is focused, change previous-searches */
     opacity: 1;
     visibility: visible;
     height: auto;
 }
 
 #previous-searches:hover {
-    /* when search bar is focused, change previous-searches */
     opacity: 1;
     visibility: visible;
     height: auto;
