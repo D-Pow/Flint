@@ -106,14 +106,6 @@ CREATE TABLE ProjectUpdate (
   FOREIGN KEY (pid) REFERENCES Project(pid)
 );
 
-CREATE TABLE Pmedia (
-  pid INTEGER NOT NULL,
-  mid INTEGER NOT NULL,
-  PRIMARY KEY (pid, mid),
-  FOREIGN KEY (pid) REFERENCES Project(pid),
-  FOREIGN KEY (mid) REFERENCES Media(mid)
-);
-
 CREATE TABLE Ptags (
   pid INTEGER NOT NULL,
   tid INTEGER NOT NULL,
