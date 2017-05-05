@@ -31,8 +31,8 @@
             $username = $_SESSION['username'];
             $posts = Post::getFollowedPosts($username);
             //get projects both by post and completion time
-            $projects = Project::getLikedProjectsByPostTime($username);
-            $compProjects = Project::getLikedProjectsByFinishTime($username);
+            $projects = Project::getLikedFollowedProjectsByPostTime($username);
+            $compProjects = Project::getLikedFollowedProjectsByFinishTime($username);
             $donations = Donation::getFollowedDonations($username);
             //also display non-liked/-followed content
             $nonfollowedDonations = Donation::getNonfollowedDonations($username);
@@ -70,6 +70,13 @@
             $username = $_GET['user'];
             $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8'); //sanitize
             $user = User::getUser($username);
+            //see if user follows the user who is being viewed
+            $usersFollowed = USER::getUsersFollowed($_SESSION['username']);
+            if ($usersFollowed) {
+                $followed = in_array($username, $usersFollowed);
+            } else {
+                $followed = null;
+            }
             if ($user) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/project.php');
                 //get owned projects

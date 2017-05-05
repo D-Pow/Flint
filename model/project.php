@@ -123,7 +123,7 @@
          * liked by a given user or posted by someone the user follows.
          * Results are sorted by the given field.
          */
-        private static function getLikedProjectsByTime($username, $field) {
+        private static function getLikedFollowedProjectsByTime($username, $field) {
             $db = DB::getInstance();
             $q = "SELECT * FROM Project WHERE pid IN "
                     . "(SELECT pid FROM Likes WHERE username=:u) "
@@ -155,6 +155,44 @@
                 return $projects;
             } else {
                 return null;
+            }
+        }
+
+        /**
+         * Get a list of project objects for all projects
+         * liked by a given user.
+         * Results are sorted by the given field.
+         */
+        private static function getLikedProjectsByTime($username, $field) {
+            $db = DB::getInstance();
+            $q = "SELECT * FROM Project WHERE pid IN "
+                    . "(SELECT pid FROM Likes WHERE username=:u) "
+                    . "ORDER BY {$field} DESC;";
+            $entries = array(":u" => $username);
+            $results = $db->runSelect($q, $entries);
+            if ($results) {
+                $projects = [];
+                foreach ($results as $row) {
+                    $tags = self::getProjectTags($row['pid']);
+                    $projects[] = new Project(
+                            $row['pid'],
+                            $row['username'],
+                            $row['pname'],
+                            $row['description'],
+                            $row['post_time'],
+                            $row['proj_completed'],
+                            $row['completion_time'],
+                            $row['minfunds'],
+                            $row['maxfunds'],
+                            $row['camp_end_time'],
+                            $row['camp_finished'],
+                            $row['camp_success'],
+                            $tags
+                        );
+                }
+                return $projects;
+            } else {
+                return [];
             }
         }
 
@@ -268,14 +306,28 @@
         }
 
         /**
-         * Returns all projects a user likes sorted by the post time.
+         * Returns all projects a user likes or follows sorted by the post time.
+         */
+        public static function getLikedFollowedProjectsByPostTime($username) {
+            return Project::getLikedFollowedProjectsByTime($username, 'post_time');
+        }
+
+        /**
+         * Returns all projects a user likes or follows sorted by the completion time.
+         */
+        public static function getLikedFollowedProjectsByFinishTime($username) {
+            return Project::getLikedFollowedProjectsByTime($username, 'completion_time');
+        }
+
+        /**
+         * Returns all projects a user likes or follows sorted by the post time.
          */
         public static function getLikedProjectsByPostTime($username) {
             return Project::getLikedProjectsByTime($username, 'post_time');
         }
 
         /**
-         * Returns all projects a user likes sorted by the completion time.
+         * Returns all projects a user likes or follows sorted by the completion time.
          */
         public static function getLikedProjectsByFinishTime($username) {
             return Project::getLikedProjectsByTime($username, 'completion_time');
