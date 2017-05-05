@@ -7,7 +7,8 @@
     <p><?php echo $user->uname; ?></p>
     <br />
     <?php
-        if ($_SESSION['username'] == $username) {
+        $owner = $_SESSION['username'] == $username;
+        if ($owner) {
             //owner can edit their own pages
             ?>
             <h3>Email:</h3>
@@ -36,7 +37,11 @@
 <?php
     //display projects owned by this user
     if ($ownedProjects) {
-        echo "<h2>Projects Posted by ".$username."</h2>";
+        if ($owner) {
+            echo "<h2>Projects you posted</h2>";
+        } else {
+            echo "<h2>Projects Posted by ".$username."</h2>";
+        }
         echo "<ul>";
         foreach($ownedProjects as $project) {
             $html = "<a class='entry-title' 
@@ -53,7 +58,11 @@
 
     //display liked projects
     if ($likedProjects) {
-        echo "<h2>Projects that ".$username." likes</h2>";
+        if ($owner) {
+            echo "<h2>Projects you like</h2>";
+        } else {
+            echo "<h2>Projects that ".$username." likes</h2>";
+        }
         echo "<ul>";
         foreach($likedProjects as $project) {
             $html = "<a class='entry-title' 
@@ -70,7 +79,11 @@
 
     //display recent projects and tags viewed by this user
     if ($viewedProjects) {
-        echo "<h2>Projects recently viewed by ".$username."</h2>";
+        if ($owner) {
+            echo "<h2>Projects you recently viewed</h2>";
+        } else {
+            echo "<h2>Projects recently viewed by ".$username."</h2>";
+        }
         echo "<ul>";
         foreach($viewedProjects as $projArray) {
             $pname = $projArray['pname'];
@@ -87,7 +100,11 @@
         echo "</ul>";
     }
     if ($viewedTags) {
-        echo "<h2>Tags recently viewed by ".$username."</h2>";
+        if ($owner) {
+            echo "<h2>Tags you recently viewed</h2>";
+        } else {
+            echo "<h2>Tags recently viewed by ".$username."</h2>";
+        }
         echo "<ul>";
         foreach($viewedTags as $tag_name) {
             $html = "<a class='entry-title' 
