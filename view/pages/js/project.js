@@ -28,6 +28,23 @@ function initKeyhandlers() {
 }
 
 /**
+ * Updates the files selected in uploader
+ */
+function updateFiles() {
+    var input = document.getElementById('uploader');
+    var label = document.getElementById('uploader-label');
+    if (input.files && input.files.length == 1) {
+        var filename = input.value.split('\\').pop(); //last item
+        label.innerHTML = filename;
+    } else if (input.files && input.files.length > 1) {
+        var count = input.files.length;
+        label.innerHTML = count + ' files selected';
+    } else {
+        label.innerHTML = 'Upload file(s)';
+    }
+}
+
+/**
  * Allows the owner to update the project's title and description
  */
 function saveChanges(pid) {

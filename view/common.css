@@ -89,9 +89,9 @@ body {
     background: rgb(0, 123, 117);
 }
 
-.button {
+button {
     /*button links*/
-    color: rgb(211, 230, 251);
+    color: black;
     background: rgb(58, 198, 66);
     margin: 5px;
     padding: 10px;
@@ -99,12 +99,13 @@ body {
     border: 2px solid black;
 }
 
-.button:focut {
+button:focus {
     outline: none;
 }
 
-.button:hover {
-    color: red;
+button:hover {
+    color: white;
+    background: rgb(0, 123, 117);
 }
 
 #container {

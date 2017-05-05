@@ -5,8 +5,26 @@ input {
     padding-left: 0px;
 }
 
-input[type="file"] {
-    border: none;
+input[type='file'] {
+    /* hide original input, cannot use display or visibility
+       or else it might be excluded from form submission */
+    position: absolute;
+    width: 1px;       /* can't be 0 */
+    opacity: 0;
+}
+
+input[type='file'] + label {
+    border: 1px solid black;
+    padding: 10px;
+    opacity: 1;
+    color: black;
+    background: rgb(58, 198, 66);
+}
+
+input[type='file']:hover + label,
+input[type='file']:focus + label {
+    color: white;
+    background: rgb(0, 123, 117);
 }
 
 input[type="range"] {

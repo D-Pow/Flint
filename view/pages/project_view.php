@@ -137,7 +137,9 @@
     <input type='text' id='post-content' name='content'>
     <?php
         if ($owner) {
-            echo "<input type='file' name='upfiles[]' id='uploader' multiple>";
+            echo "<input type='file' name='upfiles[]' id='uploader' 
+                    onchange='updateFiles()' multiple>";
+            echo "<label for='upfiles' id='uploader-label'>Upload file(s)</label>";
         }
     ?>
     </form>
