@@ -1,7 +1,7 @@
 <link rel='stylesheet' href='/Flint/view/pages/css/user.css'>
 
 <div id="container">
-    <h1><?php echo $user->username; ?></h1>
+    <h1 id='username'><?php echo $user->username; ?></h1>
     <hr />
     <h3>Name:</h3>
     <p><?php echo $user->uname; ?></p>
@@ -27,9 +27,6 @@
             <br />
             <button id='save-button' type='button'
                 onclick='saveChanges()'>Save Changes</button>
-            <script src='/Flint/view/pages/js/user.js'></script>
-            <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js">
-            </script>
             <br />
             <br />
             <?php
@@ -104,5 +101,13 @@
         }
         echo "</ul>";
     }
+
+    //allow user to follow another user if not the same user and if not followed
+    if ($_SESSION['username'] != $username && !$followed) {
+        echo "<button id='follow-button' type='button'
+                onclick=\"followUser('".$username."')\">Follow ".$username."</button>";
+    }
 ?>
 </div>
+<script src='/Flint/view/pages/js/user.js'></script>
+<script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>

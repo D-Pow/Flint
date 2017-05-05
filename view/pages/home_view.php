@@ -47,14 +47,7 @@
         echo $html;
     }
 
-    //print last login time if the user has logged in before
-    if ($_SESSION['last_login']) {
-        echo "<h3 class='divider'>
-            -----------------last login: "
-            . date('h:i A, m-d-Y', strtotime($_SESSION['last_login'])) .
-            "-----------------
-          </h3>";
-    }
+
 
     //everything that happended before the last login
     $oldContent = [];
@@ -80,15 +73,28 @@
         }
     }
 
+    //print last login time only if the user has logged in before
+    //and if they follow other users
+    if ($_SESSION['last_login'] && ($newContent || $oldContent)) {
+        echo "<h3 class='divider'>
+            -----------------last login: "
+            . date('h:i A, m-d-Y', strtotime($_SESSION['last_login'])) .
+            "-----------------
+          </h3>";
+    }
+
     shuffle($oldContent);
     foreach ($oldContent as $html) {
         echo $html;
     }
 
-    //separate non-followed content from followed content
-    echo "<h3 class='divider'>
+    //don't display divider if the user doesn't follow anything
+    if ($newContent || $oldContent) {
+        //separate non-followed content from followed content
+        echo "<h3 class='divider'>
             ------------------------non-followed content------------------------
           </h3>";
+    }
 
     //display non-followed content, too
     $nonfollowedContent = [];

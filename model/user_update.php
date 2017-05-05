@@ -9,6 +9,12 @@
     $state = $_POST['state'];
     $interests = $_POST['interests'];
 
+    $email = htmlspecialchars($email, ENT_QUOTES, 'UTF-8');
+    $addr = htmlspecialchars($addr, ENT_QUOTES, 'UTF-8');
+    $city = htmlspecialchars($city, ENT_QUOTES, 'UTF-8');
+    $state = htmlspecialchars($state, ENT_QUOTES, 'UTF-8');
+    $interests = htmlspecialchars($interests, ENT_QUOTES, 'UTF-8');
+
     session_start();
     if (!isset($_SESSION['username'])) {
         reply("Please login");

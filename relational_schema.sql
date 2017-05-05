@@ -173,9 +173,9 @@ INSERT INTO Project VALUES (199, 'Bob', 'Go skydiving', 'I want to learn how to 
 INSERT INTO Project VALUES (200, 'Bob', 'Home-brew project', 'I want to learn how to home-brew.', '2016-01-09 14:39:47', 1, '2016-12-09 14:39:47', 400, 900, '2016-08-19 23:59:59', 1, 1);
 INSERT INTO Project VALUES (198, 'Bob', 'Learn rock', 'I really want to learn rock music. Help me!', '2017-02-11 19:36:05', 0, NULL, 200, 500, '2017-05-12 23:59:59', 0, 0);
 INSERT INTO Project VALUES (202, 'Alice', 'Pottery', 'I want to start a pottery business! Help me buy paint and a kiln.', '2016-12-09 13:23:00', 0, NULL, 2000, 4200, '2017-05-12 23:59:59', 0, 0);
-INSERT INTO Project VALUES (203, 'Michael', 'Make a movie about jazz', 'I would like to make a documentary about jazz, but have no cameras. Help fund my need!', '2018-03-22 23:59:59', 0, NULL, 1200, 1800, '2017-07-20 23:59:59', 0, 0);
-INSERT INTO Project VALUES (204, 'Jordan', 'Paint project', 'I would like to learn to paint. Help me buy supplies and lessons.', '2017-04-13 04:36:05', 0, NULL, 800, 2000, '2017-05-18 23:59:59', 0, 0);
-INSERT INTO Project VALUES (205, 'BobInBrooklyn', 'Make pretty couch cover', 'I would like to make a pretty couch cover.', '2017-04-12 00:24:00', 0, NULL, 200, 400, '2018-04-31 23:59:59', 0, 0);
+INSERT INTO Project VALUES (203, 'Michael', 'Make a movie about jazz', 'I would like to make a documentary about jazz, but have no cameras. Help fund my need!', '2017-05-05 10:59:59', 0, NULL, 1200, 1800, '2017-07-20 23:59:59', 0, 0);
+INSERT INTO Project VALUES (204, 'Jordan', 'Paint project', 'I would like to learn to paint. Help me buy supplies and lessons.', '2017-05-04 04:36:05', 0, NULL, 800, 2000, '2017-05-18 23:59:59', 0, 0);
+INSERT INTO Project VALUES (205, 'BobInBrooklyn', 'Make pretty couch cover', 'I would like to make a pretty couch cover.', '2017-05-04 00:24:00', 0, NULL, 200, 400, '2018-04-31 23:59:59', 0, 0);
 
 INSERT INTO Donation VALUES ('Michael', 201, 600, '2015-04-01 12:23:09', 1, '2015-04-04 23:59:59');
 INSERT INTO Donation VALUES ('Alice', 199, 2100, '2015-04-08 12:23:09', 1, '2015-04-10 23:59:59');

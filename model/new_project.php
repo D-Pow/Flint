@@ -7,14 +7,15 @@
 
     $title = $_POST['title'];
     $description = $_POST['description'];
-    $minfunds = $_POST['minfunds'];
-    $maxfunds = $_POST['maxfunds'];
+    $minfunds = intval($_POST['minfunds']);
+    $maxfunds = intval($_POST['maxfunds']);
     $date = $_POST['date'];
     $tags = $_POST['tags'];
 
     //sanitize input of XSS
     $title = htmlspecialchars($title, ENT_QUOTES, 'UTF-8');
     $description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
+    $date = htmlspecialchars($date, ENT_QUOTES, 'UTF-8');
     for ($i = 0; $i < count($tags); $i++) {
         $tags[$i] = htmlspecialchars($tags[$i], ENT_QUOTES, 'UTF-8');
     }

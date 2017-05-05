@@ -20,3 +20,23 @@ function saveChanges() {
         }
     });
 }
+
+function followUser(username) {
+    $.ajax({
+        method: 'POST',
+        url: '/Flint/model/user_follow.php',
+        data: {user: username},
+        success: function(result) {
+            if (result == 'success') {
+                var btn = document.getElementById('follow-button');
+                btn.parentNode.removeChild(btn);
+                var div = document.getElementById('container');
+                var p = document.createElement('p');
+                p.innerHTML = 'Followed!';
+                div.appendChild(p);
+            } else {
+                alert(result);
+            }
+        }
+    });
+}

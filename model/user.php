@@ -50,6 +50,24 @@
         }
 
         /**
+         * Gets a list of users the user follows
+         */
+        public static function getUsersFollowed($username) {
+            $db = DB::getInstance();
+            $q = "SELECT follows FROM Follows WHERE username=:u;";
+            $results = $db->runSelect($q, [':u' => $username]);
+            if ($results) {
+                $followed = [];
+                foreach ($results as $row) {
+                    $followed[] = $row['follows'];
+                }
+                return $followed;
+            } else {
+                return null;
+            }
+        }
+
+        /**
          * Searches all users that have a name like the keyword
          */
         public static function searchUsers($keyword) {
