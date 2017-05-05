@@ -29,6 +29,7 @@
     $success1 = $db->runUpdate($q,$e);
 
     $success2 = null;
+    $uploadedMedia = false;
     if (!$owner) {
         $success2 = true;
     } else {
@@ -39,6 +40,7 @@
         if (!($fileCount == 1 && $upfiles['name'][0] == '')) {
             //upload the media
             $success2 = postMedia($username, $pid, $datetime, $db);
+            $uploadedMedia = true;
         } else {
             //otherwise, continue
             $success2 = true;
@@ -47,6 +49,9 @@
 
     //reply to client
     if ($success1 && $success2) {
+        if ($uploadedMedia) {
+            reply('reload');
+        }
         reply("Post successful");
     } else {
         reply("Something went wrong");

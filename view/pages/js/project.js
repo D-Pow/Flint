@@ -122,7 +122,9 @@ function post(pid, owner, username) {
         contentType: false, // Set content type to false so doesn't send as normal form
         data: d,
         success: function(result) {
-            if (result == "Post successful") {
+            if (result == 'reload') {
+                window.location.reload(true);
+            } else if (result == "Post successful") {
                 //make new post and insert it above all other posts
                 if (owner) {
                     var className = "update-post";
