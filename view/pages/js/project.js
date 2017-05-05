@@ -92,7 +92,10 @@ function donate(pid) {
                 document.getElementById('reply').innerHTML = "Thank you for donating!";
                 //update current funds
                 document.getElementById('donation-scale').value = result;
-                document.getElementById('current-funds').innerHTML = "Current funds: "+result;
+                document.getElementById('current-funds').innerHTML = 
+                        "Current funds: "+result;
+                //clear donation input field
+                document.getElementById('donation').value = '';
             } else {
                 document.getElementById('reply').innerHTML = result;
             }
@@ -207,6 +210,8 @@ function post(pid, owner, username) {
                 if (owner) {
                     var fileInput = document.getElementById('uploader');
                     fileInput.parentNode.removeChild(fileInput);
+                    var label = document.getElementById('uploader-label');
+                    label.parentNode.removeChild(label);
                 }
                 document.getElementById('post-thanks').innerHTML = "Thanks for posting";
             } else {
