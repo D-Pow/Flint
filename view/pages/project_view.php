@@ -151,6 +151,7 @@
 ?>
 </div>
 <script src='/Flint/view/pages/js/project.js'></script>
+<script>initKeyhandlers()</script>
 <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.1.0/jquery.min.js"></script>
 
 <?php

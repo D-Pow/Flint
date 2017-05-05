@@ -1,4 +1,33 @@
 /**
+ * Make key handlers for different input values
+ */
+function initKeyhandlers() {
+    //these inputs only show to owner
+    //if any have the `Enter` key pressed, save the changes
+    var inputs = ['title', 'description', 'tags-input'];
+    for (var i = 0; i < inputs.length; i++) {
+        var input = document.getElementById(inputs[i]);
+        if (input) {
+            input.onkeypress = function(event) {
+                if (event.keyCode == 13) { //if user pressed enter
+                    document.getElementById('save').click();
+                }
+            }
+        }
+    }
+
+    var post = document.getElementById('post-content');
+    if (post) {
+        post.onkeypress = function(event) {
+            if (event.keyCode == 13) {
+                document.getElementById('post-button').click();
+                event.preventDefault();
+            }
+        }
+    }
+}
+
+/**
  * Allows the owner to update the project's title and description
  */
 function saveChanges(pid) {

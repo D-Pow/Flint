@@ -277,7 +277,6 @@ input {
     font-family: cursive;
     margin: 7px;
     display: inline-block;
-    border: none;
     padding: 5px 10px;
 }
 
@@ -301,4 +300,9 @@ th {
 td {
     text-align: center;
     background: rgb(71, 218, 145);
+}
+
+.login input {
+    border: none;
+    background-color: rgb(134, 234, 204);
 }
