@@ -37,8 +37,9 @@
         }
     } else {
         ?>
-        <h2>You haven't posted any projects yet!</h2>
-        <h3><a href='/Flint/?controller=pages&action=new'>Create</a> one now!</h3>
+        <h2 style='text-align: center;'>You haven't posted any projects yet!</h2>
+        <h3 style='text-align: center;'>
+            <a href='/Flint/?controller=pages&action=new'>Create</a> one now!</h3>
         <?php
     }
 

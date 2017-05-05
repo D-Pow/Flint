@@ -143,7 +143,12 @@ function post(pid, owner, username) {
                 //div must be appended first because insertBefore only accepts one node
                 //at a time
                 var wrapper = document.createElement('div');
-                document.body.insertBefore(wrapper, previousPost);
+                //if previous post exists, insert before it
+                if (previousPost) {
+                    document.body.insertBefore(wrapper, previousPost);
+                } else {
+                    document.body.append(wrapper);
+                }
                 wrapper.innerHTML = newPost;
                 //clear input after posting
                 var input = document.getElementById('post-content');

@@ -55,7 +55,7 @@
                 }
                 return $searches;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -76,7 +76,7 @@
                 }
                 return $projects;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -95,7 +95,7 @@
                 }
                 return $tags;
             } else {
-                return null;
+                return [];
             }
         }
 

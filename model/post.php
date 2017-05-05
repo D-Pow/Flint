@@ -38,7 +38,7 @@
                 }
                 return $posts;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -56,7 +56,7 @@
                 }
                 return $filenames;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -76,7 +76,7 @@
                 }
                 return $posts;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -96,7 +96,7 @@
             } else if ($comments) {
                 return $comments;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -120,7 +120,7 @@
                 }
                 return $posts;
             } else {
-                return null;
+                return [];
             }
         }
     
@@ -143,7 +143,7 @@
                 }
                 return $posts;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -163,7 +163,7 @@
             } else if ($comments) {
                 return $comments;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -187,7 +187,7 @@
                 }
                 return $posts;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -210,7 +210,7 @@
                 }
                 return $posts;
             } else {
-                return null;
+                return [];
             }
         }
 

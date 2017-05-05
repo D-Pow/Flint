@@ -46,7 +46,7 @@
                 }
                 return $donations;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -77,7 +77,7 @@
                 }
                 return $donations;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -93,7 +93,7 @@
                 $row = $results[0];
                 return $row['total'];
             } else {
-                return null;
+                return 0;
             }
         }
     }

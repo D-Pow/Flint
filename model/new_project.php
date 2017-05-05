@@ -17,7 +17,8 @@
     $description = htmlspecialchars($description, ENT_QUOTES, 'UTF-8');
     $date = htmlspecialchars($date, ENT_QUOTES, 'UTF-8');
     for ($i = 0; $i < count($tags); $i++) {
-        $tags[$i] = htmlspecialchars($tags[$i], ENT_QUOTES, 'UTF-8');
+        //remove whitespace and sanitize
+        $tags[$i] = trim(htmlspecialchars($tags[$i], ENT_QUOTES, 'UTF-8'));
     }
 
     if ($title == '' || $description == '' || $minfunds == ''
@@ -82,7 +83,7 @@
      * $tags is the array of user-inputted tags
      */
     function insertAndConnectTags($db, $tags, $pid) {
-        if (!$tags || trim($tags) == '') {
+        if (!$tags) {
             //don't insert blank tags
             return true;
         }

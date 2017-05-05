@@ -114,7 +114,7 @@
                 }
                 return $projects;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -154,7 +154,7 @@
                 }
                 return $projects;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -211,7 +211,7 @@
                 }
                 return $users;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -230,7 +230,7 @@
                 }
                 return $filenames;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -264,7 +264,7 @@
                 }
                 return $projects;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -301,7 +301,7 @@
                 }
                 return $projects;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -309,28 +309,28 @@
          * Returns all projects a user likes or follows sorted by the post time.
          */
         public static function getLikedFollowedProjectsByPostTime($username) {
-            return Project::getLikedFollowedProjectsByTime($username, 'post_time');
+            return self::getLikedFollowedProjectsByTime($username, 'post_time');
         }
 
         /**
          * Returns all projects a user likes or follows sorted by the completion time.
          */
         public static function getLikedFollowedProjectsByFinishTime($username) {
-            return Project::getLikedFollowedProjectsByTime($username, 'completion_time');
+            return self::getLikedFollowedProjectsByTime($username, 'completion_time');
         }
 
         /**
          * Returns all projects a user likes or follows sorted by the post time.
          */
         public static function getLikedProjectsByPostTime($username) {
-            return Project::getLikedProjectsByTime($username, 'post_time');
+            return self::getLikedProjectsByTime($username, 'post_time');
         }
 
         /**
          * Returns all projects a user likes or follows sorted by the completion time.
          */
         public static function getLikedProjectsByFinishTime($username) {
-            return Project::getLikedProjectsByTime($username, 'completion_time');
+            return self::getLikedProjectsByTime($username, 'completion_time');
         }
 
         /**
@@ -350,7 +350,7 @@
                 }
                 return $users;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -385,7 +385,7 @@
                 }
                 return $users;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -420,7 +420,7 @@
                 }
                 return $projects;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -438,7 +438,7 @@
                 }
                 return $tags;
             } else {
-                return null;
+                return [];
             }
         }
 

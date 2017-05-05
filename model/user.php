@@ -63,7 +63,7 @@
                 }
                 return $followed;
             } else {
-                return null;
+                return [];
             }
         }
 
@@ -92,7 +92,7 @@
                 }
                 return $users;
             } else {
-                return null;
+                return [];
             }
         }
     }
