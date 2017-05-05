@@ -104,6 +104,18 @@
         <script>
             //delete all old search items
             var ul = document.getElementById('previous-searches');
+            if (!ul) {
+                //no elements exist yet, so the list doesn't exist
+                //first, make arrow
+                var arrow = document.createElement('div');
+                arrow.id = 'prev-search-arrow';
+                //make unordered list
+                ul = document.createElement('ul');
+                ul.id = 'previous-searches';
+                var div = document.getElementById('search-content');
+                div.appendChild(arrow);
+                div.appendChild(ul);
+            }
             while (ul.hasChildNodes()) {
                 ul.removeChild(ul.lastChild);
             }
