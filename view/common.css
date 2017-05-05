@@ -162,6 +162,8 @@ body {
 #previous-searches {
     visibility: hidden;         /* start out hidden */
     opacity: 0;
+    height: 0px;                /* prevent searches from blocking 
+                                   the page when inactive */
     width: inherit;             /* same width as search bar */
     list-style-type: none;      /* no bullets */
     background-color: #f6f6f6;
@@ -178,6 +180,7 @@ body {
     /* when search bar is focused, change previous-searches */
     opacity: 1;
     visibility: visible;
+    height: auto;
 }
 
 .search-item {

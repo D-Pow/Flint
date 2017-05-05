@@ -28,19 +28,22 @@
 <div id='search-content'>
     <input id='search-bar' type='text' placeholder='Search'
             onkeydown="search(event)" onkeyup="filterPrevSearches()">
-    <div id='prev-search-arrow'></div>
-    <ul id='previous-searches'>
         <?php
         require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/view_log.php');
         $searches = ViewLog::getRecentSearches($_SESSION['username']);
-        foreach ($searches as $search) {
-            echo "<li class='search-item'>";
-            echo "<a href='/Flint/?controller=pages&action=search&q="
-                .$search."'>".$search."</a>";
-            echo "</li>";
+        if ($searches) {
+            //only show previous search content if previous searches exist
+            echo "<div id='prev-search-arrow'></div>";
+            echo "<ul id='previous-searches'>";
+            foreach ($searches as $search) {
+                echo "<li class='search-item'>";
+                echo "<a href='/Flint/?controller=pages&action=search&q="
+                    .$search."'>".$search."</a>";
+                echo "</li>";
+            }
+            echo "</ul>";
         }
         ?>
-    </ul>
 
     <script>
         /**
