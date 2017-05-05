@@ -212,7 +212,7 @@ body {
     /* display connecting arrow to drop-down menu */
     display: none;
     opacity: 0;
-    transition: all 0.3s;       /* same as search items */
+    transition: all 0.4s;       /* same as search items */
     margin: 0 auto;
     /* make position relative so it can be moved to center of previous-searches,
        not the search bar itself */
