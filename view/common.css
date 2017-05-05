@@ -46,9 +46,6 @@ body {
     padding: 0px;
     text-align: center;
     overflow: hidden;
-}
-
-#nav:hover {
     border-bottom-left-radius: 10px;
     border-bottom-right-radius: 10px;
 }
@@ -81,7 +78,6 @@ body {
 #nav li a {
     display: block;
     padding: 10px;
-    margin: auto;
     text-decoration: none;
     color: black;
     background: rgb(58, 198, 66);
