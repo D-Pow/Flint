@@ -16,9 +16,13 @@
     }
     $username = $_POST["username"];
     $password = $_POST["password"];
+    $username = htmlspecialchars($username, ENT_QUOTES, 'UTF-8');
+    $password = htmlspecialchars($password, ENT_QUOTES, 'UTF-8');
     if ($createNewUser == 1) {
         $name = $_POST["name"];
         $ccn = $_POST["ccn"];
+        $name = htmlspecialchars($name, ENT_QUOTES, 'UTF-8');
+        $ccn = intval(htmlspecialchars($ccn, ENT_QUOTES, 'UTF-8'));
     }
     if ($username == "" || $password == "") {
         reply("no values");
@@ -51,7 +55,7 @@
                 ':pass' => $hashedPassword,
                 ':uname'=> $name,
                 ':ccn'  => intval($ccn),
-                ':lt'   => date('0-0-0 0:0:0')  //make last login = never
+                ':lt'   => date('1000-01-01 00:00:00')  //make last login = never
             );
         $success = $db->runUpdate($query, $entries);
         if ($success) {
@@ -114,7 +118,8 @@
         //Set username and last login time in session
         session_start();
         $_SESSION['username'] = $username;
-        $_SESSION['last_login'] = $lTime;   //stored as string
+        //date stored as string
+        $_SESSION['last_login'] = ($lTime == '1000-01-01 00:00:00' ? '' : $lTime);
         reply("accept login");
     }
 

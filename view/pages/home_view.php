@@ -47,12 +47,14 @@
         echo $html;
     }
 
-    //print last login time
-    echo "<h3 class='divider'>
+    //print last login time if the user has logged in before
+    if ($_SESSION['last_login']) {
+        echo "<h3 class='divider'>
             -----------------last login: "
             . date('h:i A, m-d-Y', strtotime($_SESSION['last_login'])) .
             "-----------------
           </h3>";
+    }
 
     //everything that happended before the last login
     $oldContent = [];
