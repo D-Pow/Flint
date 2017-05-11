@@ -143,7 +143,9 @@
             $pid = htmlspecialchars($pid, ENT_QUOTES, 'UTF-8');
             $pid = intval($pid);
             $project = Project::getProject($pid);
-            if ($project) {
+            $requestedUsers = Project::getRequestedRaters($pid); //also checks if project finished
+            //if the project exists and the user hasn't rated it yet
+            if ($project && in_array($_SESSION['username'], $requestedUsers)) {
                 require_once($_SERVER['DOCUMENT_ROOT'].'/Flint/model/donation.php');
                 $totalFunds = Donation::getTotalDonations($pid);
                 $likes = Project::getLikes($pid);

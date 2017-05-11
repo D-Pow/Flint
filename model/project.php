@@ -340,7 +340,8 @@
         public static function getRequestedRaters($pid) {
             $db = DB::getInstance();
             $q = "SELECT username FROM Donation WHERE pid=:p AND charged=1 "
-                ."AND username NOT IN (SELECT username FROM Rating WHERE pid=:p);";
+                ."AND username NOT IN (SELECT username FROM Rating WHERE pid=:p) "
+                ."AND (SELECT proj_completed FROM Project WHERE pid=:p)=1;";
             $e = [':p' => $pid];
             $results = $db->runSelect($q, $e);
             if ($results) {
